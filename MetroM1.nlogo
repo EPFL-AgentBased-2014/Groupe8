@@ -1,49 +1,62 @@
-turtles-own
-[
-  speed              ;;speed of the turtle in between stations
-  time-at-station    ;; time spent at each stop
-]
-
-patches-own
-[
-  occupied
-  free
-]
-
-
 ;;;;;;;;;;;;;;;;;;;;
 ;;Setup Procedures;;
 ;;;;;;;;;;;;;;;;;;;;
 
 to setup
   clear-all
-  setup-patches     ;;ask the patches to create the tracks
-  set-default-shape turtles "train passenger car"
+  ask patches    ;;ask the patches to create the tracks
+  [setup-track setup-station]
+  setup-metros
   reset-ticks
 end  
 
+;;PATCHES
 
-to setup-patches
-  
+to setup-track
+  if (pxcor > -19) and (pxcor < -9) [
+  if(pycor < 1) and (pycor > -1) [set pcolor white]
+  ] 
+   if (pxcor > -9) and (pxcor < 9) [
+  if(pycor < 1) and (pycor > -1) [set pcolor white]
+  ]
 end
 
+to setup-station
+ if (pxcor > -10) and (pxcor < -8) [
+  if(pycor < 1) and (pycor > -1) [set pcolor red]
+  ]
+end
 
+;;;TURTLES
+to setup-metros
+  set-default-shape turtles "train passenger car"
+  create-turtles 1 [
+  set xcor -18
+  set heading 90
+  set color blue
+  set size 2
+   ]
+end
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;;Runtime Procedures;;
 ;;;;;;;;;;;;;;;;;;;;;;
 to go
-  
+  ask turtles [
+    fd speed
+]
+  tick
 end
+
 @#$#@#$#@
 GRAPHICS-WINDOW
-210
-10
-649
-470
-16
-16
-13.0
+-1
+110
+702
+327
+20
+5
+16.91
 1
 10
 1
@@ -53,10 +66,10 @@ GRAPHICS-WINDOW
 1
 1
 1
--16
-16
--16
-16
+-20
+20
+-5
+5
 0
 0
 1
@@ -87,7 +100,7 @@ BUTTON
 67
 NIL
 go
-T
+NIL
 1
 T
 OBSERVER
@@ -96,6 +109,38 @@ NIL
 NIL
 NIL
 0
+
+BUTTON
+214
+42
+277
+75
+NIL
+go
+T
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+SLIDER
+23
+351
+195
+384
+speed
+speed
+0
+5
+1
+0.1
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?
