@@ -15,7 +15,7 @@ agents : rames de métro
 patch : arrêts, voies bi-directionnelles aux arrêts, voies uni-directionnelles
 
 
-###variables :
+###Variables :
 
 vitesse de l'agent rame de métro
 
