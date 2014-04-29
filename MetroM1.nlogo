@@ -1,3 +1,12 @@
+patches-own [
+  waitingTime 
+  railNumber 
+  stationNumber 
+  occupied
+  ]
+breed [leftie gauche]      ;Breed->Turtle sub classes
+breed [rightie droite]
+
 ;;;;;;;;;;;;;;;;;;;;
 ;;Setup Procedures;;
 ;;;;;;;;;;;;;;;;;;;;
@@ -5,34 +14,59 @@
 to setup
   clear-all
   ask patches    ;;ask the patches to create the tracks
-  [setup-track setup-station]
-  setup-metros
+    [setup-route
+         ]
+  setup-leftie
+  setup-rightie
   reset-ticks
 end  
 
 ;;PATCHES
 
-to setup-track
-  if (pxcor > -19) and (pxcor < -9) [
-  if(pycor < 1) and (pycor > -1) [set pcolor white]
-  ] 
-   if (pxcor > -9) and (pxcor < 9) [
-  if(pycor < 1) and (pycor > -1) [set pcolor white]
-  ]
+;to spread-occupation [#n]
+;  let temp neighbors with [(pcolor = white)]
+;  ask temp[
+;    if railNumber = #n [
+;    set occupied true
+;    ]
+; ]
+  
+;end
+
+to setup-route
+   if (pxcor > -19) and (pxcor < -9) [setup-track ]     ;; Troncon 1
+   if (pxcor > -10) and (pxcor < -8) [setup-station ]   ;; Station 1
+    if (pxcor > -9) and (pxcor < 3) [setup-track ]      ;; Troncon 2
+     if (pxcor > 2) and (pxcor < 4) [setup-station ]    ;; Station 2
+     if (pxcor > 3) and (pxcor < 10) [setup-track ]      ;; Troncon 3
+     
 end
 
-to setup-station
- if (pxcor > -10) and (pxcor < -8) [
-  if(pycor < 1) and (pycor > -1) [set pcolor red]
-  ]
+to setup-track
+  if(pycor < 1) and (pycor > -1) [set pcolor white] 
 end
+
+to setup-station 
+  if(pycor < 1) and (pycor > -1) [set pcolor red]
+end
+
 
 ;;;TURTLES
-to setup-metros
+to setup-leftie
   set-default-shape turtles "train passenger car"
   create-turtles 1 [
   set xcor -18
   set heading 90
+  set color blue
+  set size 2
+   ]
+end
+
+to setup-rightie
+  set-default-shape turtles "train passenger car"
+  create-turtles 1 [
+  set xcor 9
+  set heading 270
   set color blue
   set size 2
    ]
@@ -43,11 +77,29 @@ end
 ;;;;;;;;;;;;;;;;;;;;;;
 to go
   ask turtles [
-    fd speed
+    move
+    
+    
 ]
   tick
 end
 
+to move
+  if pcolor = white[
+    ;spread-occupation railNumber
+   forward speed
+  ]  
+  if pcolor = red [at-station]
+end
+
+to at-station
+  set waitingTime waitingTime + 1
+    print waitingTime
+  if waitingTime > 4 [
+    set waitingTime 0
+    forward 1
+  ]
+end
 @#$#@#$#@
 GRAPHICS-WINDOW
 -1
@@ -70,8 +122,8 @@ GRAPHICS-WINDOW
 20
 -5
 5
-0
-0
+1
+1
 1
 ticks
 30.0
@@ -135,8 +187,8 @@ SLIDER
 speed
 speed
 0
-5
 1
+0.8
 0.1
 1
 NIL
