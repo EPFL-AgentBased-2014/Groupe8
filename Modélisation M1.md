@@ -6,10 +6,14 @@ Modéliser le déplacement de rames de métro du M1 : quelle circulation, quelle
 ###Problématique : peut-on aboutir à un fonctionnement optimal à fréquence régulière ?
 Agents et Patchs
 
+### On cherche à comprendre comment 3 paramètres (vitesse, fréquence, temps d'arrêts) influencent la circulation du M1.
+
 agents : rames de métro
 
 patch : arrêts, voies bi-directionnelles aux arrêts, voies uni-directionnelles
-variables :
+
+
+###variables :
 
 vitesse de l'agent rame de métro
 
