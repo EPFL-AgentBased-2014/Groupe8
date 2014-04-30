@@ -1,4 +1,4 @@
- ;;set mylist n-values 41 [? - 20]       ;creates list with result of calculation within brackets  ?takes every value from 0 to 41
+;;set mylist n-values 41 [? - 20]       ;creates list with result of calculation within brackets  ?takes every value from 0 to 41
 ;; ask patch-ahead 1 [ show pcolor ]
 ;; [pcolor] of patch-ahead 1
 ;; while [ white = [pcolor] of patch-adhead counter ] [ do something + set counter counter+1 ]
@@ -268,7 +268,7 @@ NumberMetros
 NumberMetros
 1
 15
-2
+1
 1
 1
 NIL
