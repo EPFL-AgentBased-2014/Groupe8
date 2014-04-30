@@ -10,14 +10,16 @@
 
 
 ;waiting time
+;count metros on station
 
 patches-own [
-  isBlocked ;boolean true- only the current train can move over the patch
-  waitingTime            
+  isBlocked                    ;boolean true- only the current train can move over the patch
+  waitingTime 
+  terminus           
 ]
 turtles-own [
-  canMove               ;boolean- true, i can move
-  disregardBlock        ;la métro qui a bloqué son tronçon peut quand même bouger
+  canMove                      ;boolean- true, i can move
+  disregardBlock               ;la métro qui a bloqué son tronçon peut quand même bouger
   counter 
   waitingTimeOver              ;;counts iterations of while loop
 ]
@@ -51,41 +53,42 @@ to setup-patches                            ;Tracks - White
   ]
   
   
-  foreach [44 33 15 5 -4 -27 -35] [           ;list with x-positions of the stations
+  foreach [44 33 15 5 -4 -27 -35 -45] [           ;list with x-positions of the stations
     ask patch ? -3 [
       set pcolor red
      ]
   ]
-    foreach [-44 -33 -19 -6 3 17 30 41] [           ;list with x-positions of the stations
+    foreach [-45 -33 -19 -6 3 17 30 41] [           ;list with x-positions of the stations
     ask patch ?  3 [
       set pcolor red
      ]
     
   ]
+  ask patches [set terminus false]                 ;definir flon et Renens comme terminus- il tourne de 180degrées
+  ask patch 41 3 [ set terminus true]
+  ask patch 44 -3 [ set terminus true]
 end
 
 ;;TURTLES
 to setup-turtles
   set-default-shape turtles "train passenger car"
- 
-  create-turtles numberMetros [            ;set x-coordinates of right heading metros in list
-  set xcor 47
+   create-turtles numberMetros [                   ;set x-coordinates of right heading metros in list
+   set xcor 17
+   set ycor 3
+   set heading 90
+   set color one-of base-colors ; random colored
+   set size 2
+   set disregardBlock false
+]
+  
+  create-turtles numberMetros [
+  set xcor 17
   set ycor 3
   set heading 270
-  set color one-of base-colors
+  set color one-of base-colors 
   set size 2
   set disregardBlock false
    ]
-  
-;  foreach [20 30]  [create-turtles 1 [
-;  set xcor ?
-;  set ycor 0
-;  set heading 270
-;  set color 125 ;magenta
-;  set size 2
-;  set disregardBlock false
-;   ]
-;  ]
 end
 
 ;;;;;;;;;;;;;;;;;;;;;;
@@ -94,20 +97,20 @@ end
 
 to go
   jump-line
-  ask turtles [                                                 ;;!!!dés fois la métro arrivant prend le wait count de la métro déja la
-    if pcolor = red [at-station]
+  ask turtles [                                                 ;!!dés fois la métro arrivant prend le wait count de la métro déja la
+   if pcolor = red [at-station]
    if waitingTimeOver[move]
   ]
   tick
 end
 
-to jump-line                                                    ;;la turtle jump à la ligne dessous où dessus
-  ask turtles [ ifelse patch-here = patch -45 3 
+to jump-line                                                    ;la turtle jump à la ligne dessous où dessus
+  ask turtles [ ifelse patch-here = patch -45 3 and heading = 90
     [
     set xcor -45
     set ycor -3
        ] [
-     if patch-here = patch -45 -3
+     if patch-here = patch -45 -3 and heading = 270
      [
      set xcor -45
      set ycor 3
@@ -117,9 +120,17 @@ to jump-line                                                    ;;la turtle jump
 end
 
 to move
-  set canMove [not isBlocked] of patch-ahead 1  ;change status of the patch ahead to unblocked
-              
-  ifelse canMove [                                          
+;  ifelse (xcor = -45 and ycor = 3)[
+;   set canMove [not isBlocked] of patch -44 -3
+;    ][
+;    ifelse (xcor = -45 and ycor = -3)[
+;      set canMove[not isBlocked] of patch -44 3
+;    ][
+    set canMove [not isBlocked] of patch-ahead 1  ;change status of the patch ahead to unblocked
+;    ]
+;  ]
+
+ifelse canMove [                                          
     set disregardBlock true
     set counter 1
     while [ white = [pcolor] of patch-ahead counter ][      ;if patch ahead white,it is blocked
@@ -151,14 +162,14 @@ to move
       forward 1
     ]
   ]
-  if black = [pcolor] of patch-ahead 1 [                      ;;Terminal Station- turn around
+  if [terminus] of patch-here [                      ;;Terminal Station- turn around
     set heading heading - 180
   ]
 end
 
 to at-station                                                   ;Attendre le nombre de ticks spécifiés
   set waitingTime waitingTime + 1
-     print waitingTime
+     show waitingTime
      ifelse waitingTime > attendre [
         set waitingTime 0
         set waitingTimeOver true
@@ -261,9 +272,9 @@ HORIZONTAL
 
 SLIDER
 27
-425
+460
 199
-458
+493
 NumberMetros
 NumberMetros
 1
@@ -327,6 +338,16 @@ TEXTBOX
 RENENS
 11
 45.0
+1
+
+TEXTBOX
+34
+430
+184
+458
+Nombre de metros qui partent à droite et à gauche
+11
+0.0
 1
 
 @#$#@#$#@
