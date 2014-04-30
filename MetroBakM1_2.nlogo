@@ -8,8 +8,6 @@
 ;; ]
 ;; SAVE YOUR FILE
 
-
-;waiting time
 ;count metros on station
 
 patches-own [
@@ -32,6 +30,8 @@ to setup
   clear-all
   setup-patches
   setup-turtles
+  ask patch 45 -3 [set isBlocked false]
+  ask patch 42 3 [set isBlocked false]
   ask turtles [set WaitingTimeOver true]
   reset-ticks
 end  
@@ -96,7 +96,14 @@ end
 ;;;;;;;;;;;;;;;;;;;;;;
 
 to go
-  jump-line  ask turtles [                                                 ;!!dés fois la métro arrivant prend le wait count de la métro déja la
+  jump-line  
+  ask turtles [ 
+   if (patch-here = patch 42 3)[ 
+    set heading heading - 180                     ;;Terminal Station- turn around
+  ] 
+   if (patch-here = patch 44 -3)[ 
+    set heading heading - 180                     ;;Terminal Station- turn around
+  ]                                                ;!!dés fois la métro arrivant prend le wait count de la métro déja la
    if pcolor = red [at-station]
    if waitingTimeOver [move]
 ]
@@ -155,7 +162,7 @@ ifelse canMove [
     forward 1
     
     if pcolor = red [                                      
-      set disregardBlock false                             ; if I just moved onto a station, unblock the stuff behind me
+      set disregardBlock false                           ; if I just moved onto a station, unblock the stuff behind me
       ;;show disregardBlock
       set counter 1
       
@@ -172,10 +179,12 @@ ifelse canMove [
     if disregardBlock [                                      ;if disregard block=true he walks even though the route is blocked
       forward 1
     ]
-  ]
-  if [terminus] of patch-here [                      ;;Terminal Station- turn around
-    set heading heading - 180
-  ]
+  ]                                                         ;;Terminal Station- turn around
+ 
+;  if [terminus = true ] of patch-here [
+;    set heading heading - 180
+;    ]
+                   
 end
 
 to at-station                                                   ;Attendre le nombre de ticks spécifiés
@@ -275,7 +284,7 @@ speed
 speed
 0
 1
-0.8
+0
 0.1
 1
 NIL
@@ -290,7 +299,7 @@ NumberMetros
 NumberMetros
 1
 15
-3
+5
 1
 1
 NIL
