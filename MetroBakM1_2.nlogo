@@ -96,38 +96,50 @@ end
 ;;;;;;;;;;;;;;;;;;;;;;
 
 to go
-   jump-line   ask turtles [                                                 ;!!dés fois la métro arrivant prend le wait count de la métro déja la
+  jump-line  ask turtles [                                                 ;!!dés fois la métro arrivant prend le wait count de la métro déja la
    if pcolor = red [at-station]
-   if waitingTimeOver[move]
-  ]
+   if waitingTimeOver [move]
+]
   tick
 end
 
 to jump-line                                                    ;la turtle jump à la ligne dessous où dessus
-  ask turtles [ ifelse patch-here = patch -45 3 and heading = 90
-    [
+;  ask turtles [ ifelse patch-here = patch -45 3 and heading = 90
+;    [
+;    set xcor -45
+;    set ycor -3
+;       ] [
+;     if patch-here = patch -45 -3 and heading = 270
+;     [
+;     set xcor -45
+;     set ycor 3
+;    ]
+;  ]
+;]  
+end
+
+to jump-south
     set xcor -45
     set ycor -3
-       ] [
-     if patch-here = patch -45 -3 and heading = 270
-     [
-     set xcor -45
-     set ycor 3
-    ]
-  ]
-]  
+    set heading heading - 180
+end
+
+to jump-north
+   set xcor -45
+   set ycor 3
+   set heading heading + 180
 end
 
 to move
-;  ifelse (xcor = -45 and ycor = 3)[
-;   set canMove [not isBlocked] of patch -44 -3
-;    ][
-;    ifelse (xcor = -45 and ycor = -3)[
-;      set canMove[not isBlocked] of patch -44 3
-;    ][
-    set canMove [not isBlocked] of patch-ahead 1  ;change status of the patch ahead to unblocked
-;    ]
-;  ]
+  ifelse patch-here = patch -45 3 and heading = 270 [
+    jump-south 
+    ][
+       ifelse patch-here = patch -45 -3 and heading = 270 [
+         jump-north
+       ][
+        set canMove [not isBlocked] of patch-ahead 1  ;change status of the patch ahead to unblocked
+     ]
+  ]
 
 ifelse canMove [                                          
     set disregardBlock true
@@ -278,7 +290,7 @@ NumberMetros
 NumberMetros
 1
 15
-1
+3
 1
 1
 NIL
