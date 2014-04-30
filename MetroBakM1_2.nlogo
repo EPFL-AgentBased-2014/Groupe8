@@ -8,8 +8,6 @@
 ;; ]
 ;; SAVE YOUR FILE
 
-
-;waiting time
 ;count metros on station
 
 patches-own [
@@ -32,6 +30,8 @@ to setup
   clear-all
   setup-patches
   setup-turtles
+  ask patch 45 -3 [set isBlocked false]
+  ask patch 42 3 [set isBlocked false]
   ask turtles [set WaitingTimeOver true]
   reset-ticks
 end  
@@ -96,38 +96,57 @@ end
 ;;;;;;;;;;;;;;;;;;;;;;
 
 to go
-   jump-line   ask turtles [                                                 ;!!dés fois la métro arrivant prend le wait count de la métro déja la
+  jump-line  
+  ask turtles [ 
+   if (patch-here = patch 42 3)[ 
+    set heading heading - 180                     ;;Terminal Station- turn around
+  ] 
+   if (patch-here = patch 44 -3)[ 
+    set heading heading - 180                     ;;Terminal Station- turn around
+  ]                                                ;!!dés fois la métro arrivant prend le wait count de la métro déja la
    if pcolor = red [at-station]
-   if waitingTimeOver[move]
-  ]
+   if waitingTimeOver [move]
+]
   tick
 end
 
 to jump-line                                                    ;la turtle jump à la ligne dessous où dessus
-  ask turtles [ ifelse patch-here = patch -45 3 and heading = 90
-    [
+;  ask turtles [ ifelse patch-here = patch -45 3 and heading = 90
+;    [
+;    set xcor -45
+;    set ycor -3
+;       ] [
+;     if patch-here = patch -45 -3 and heading = 270
+;     [
+;     set xcor -45
+;     set ycor 3
+;    ]
+;  ]
+;]  
+end
+
+to jump-south
     set xcor -45
     set ycor -3
-       ] [
-     if patch-here = patch -45 -3 and heading = 270
-     [
-     set xcor -45
-     set ycor 3
-    ]
-  ]
-]  
+    set heading heading - 180
+end
+
+to jump-north
+   set xcor -45
+   set ycor 3
+   set heading heading + 180
 end
 
 to move
-;  ifelse (xcor = -45 and ycor = 3)[
-;   set canMove [not isBlocked] of patch -44 -3
-;    ][
-;    ifelse (xcor = -45 and ycor = -3)[
-;      set canMove[not isBlocked] of patch -44 3
-;    ][
-    set canMove [not isBlocked] of patch-ahead 1  ;change status of the patch ahead to unblocked
-;    ]
-;  ]
+  ifelse patch-here = patch -45 3 and heading = 270 [
+    jump-south 
+    ][
+       ifelse patch-here = patch -45 -3 and heading = 270 [
+         jump-north
+       ][
+        set canMove [not isBlocked] of patch-ahead 1  ;change status of the patch ahead to unblocked
+     ]
+  ]
 
 ifelse canMove [                                          
     set disregardBlock true
@@ -143,7 +162,7 @@ ifelse canMove [
     forward 1
     
     if pcolor = red [                                      
-      set disregardBlock false                             ; if I just moved onto a station, unblock the stuff behind me
+      set disregardBlock false                           ; if I just moved onto a station, unblock the stuff behind me
       ;;show disregardBlock
       set counter 1
       
@@ -160,10 +179,12 @@ ifelse canMove [
     if disregardBlock [                                      ;if disregard block=true he walks even though the route is blocked
       forward 1
     ]
-  ]
-  if [terminus] of patch-here [                      ;;Terminal Station- turn around
-    set heading heading - 180
-  ]
+  ]                                                         ;;Terminal Station- turn around
+ 
+;  if [terminus = true ] of patch-here [
+;    set heading heading - 180
+;    ]
+                   
 end
 
 to at-station                                                   ;Attendre le nombre de ticks spécifiés
@@ -177,17 +198,10 @@ to at-station                                                   ;Attendre le nom
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-<<<<<<< HEAD
-33
-96
-1226
-296
-=======
 37
 98
 1230
 298
->>>>>>> 03012471867a886cebc8924aa53977d1e568bafb
 45
 6
 13.0
@@ -270,7 +284,7 @@ speed
 speed
 0
 1
-0.8
+0
 0.1
 1
 NIL
@@ -285,7 +299,7 @@ NumberMetros
 NumberMetros
 1
 15
-2
+5
 1
 1
 NIL
@@ -320,7 +334,7 @@ attendre
 attendre
 0
 10
-5
+2
 1
 1
 NIL
@@ -338,156 +352,15 @@ Time Metro waits at Station
 
 TEXTBOX
 1140
-143
+136
 1215
-161
+154
 RENENS
 11
 45.0
 1
 
 TEXTBOX
-<<<<<<< HEAD
-1000
-140
-1108
-157
-EPENEX
-11
-45.0
-1
-
-TEXTBOX
-828
-141
-936
-157
-CROCHY
-11
-45.0
-1
-
-TEXTBOX
-643
-143
-751
-159
-CERISAIE
-11
-45.0
-1
-
-TEXTBOX
-520
-143
-628
-159
-BASSENGES
-11
-45.0
-1
-
-TEXTBOX
-371
-143
-479
-159
-EPFL
-11
-45.0
-1
-
-TEXTBOX
-167
-142
-275
-159
-UNIL SORGE
-11
-45.0
-1
-
-TEXTBOX
-42
-142
-150
-158
-UNIL MOULINE
-11
-45.0
-1
-
-TEXTBOX
-133
-222
-241
-238
-UNIL DORIGNY
-11
-45.0
-1
-
-TEXTBOX
-233
-223
-341
-239
-BOURDONNETTE
-11
-45.0
-1
-
-TEXTBOX
-433
-44
-541
-61
-NIL
-13
-0.0
-1
-
-TEXTBOX
-1043
-218
-1151
-234
-VIGIE
-11
-45.0
-1
-
-TEXTBOX
-797
-218
-905
-234
-MONTELLY
-11
-45.0
-1
-
-TEXTBOX
-666
-220
-774
-236
-PROVENCE
-11
-45.0
-1
-
-TEXTBOX
-557
-220
-665
-237
-MALLEY
-11
-45.0
-1
-
-=======
 34
 430
 184
@@ -497,7 +370,6 @@ Nombre de metros qui partent à droite et à gauche
 0.0
 1
 
->>>>>>> 03012471867a886cebc8924aa53977d1e568bafb
 @#$#@#$#@
 ## WHAT IS IT?
 
