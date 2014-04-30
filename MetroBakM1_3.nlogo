@@ -21,6 +21,8 @@ turtles-own [
   counter 
   waitingTimeOver              ;;counts iterations of while loop
   turned
+  goahead
+  myspeed
 ]
 
 ;;;;;;;;;;;;;;;;;;;;
@@ -99,15 +101,19 @@ end
 ;;;;;;;;;;;;;;;;;;;;;;
 
 to go 
-  ask turtles [                                                 ;!!dés fois la métro arrivant prend le wait count de la métro déja la
-   ifelse [pcolor] of patch-here = red [
-     at-station
-     if waitingTimeOver [move]
-   ][
-     move
-   ]
-]
+  ask turtles [
+    jump-if-necessary
+    turn-if-necessary
+    wait-if-necessary
+    move-if-you-can
+  ]
   tick
+end
+
+to jump-if-necessary
+    ;; if you are on the extremities of the line
+    if patch-here = patch -45 3 and heading = 270 [ jump-south ]
+    if patch-here = patch -45 -3 and heading = 270 [ jump-north ]
 end
 
 to jump-south
@@ -122,20 +128,47 @@ to jump-north
    set heading heading + 180
 end
 
-to move
-   if [terminus] of patch-here and not turned
+
+to turn-if-necessary
+  if [terminus] of patch-here and not turned
    [
     set heading heading - 180                     ;;Terminal Station- turn around
     set turned true
   ]
-    
-if patch-here = patch -45 3 and heading = 270 [ jump-south ]
-if patch-here = patch -45 -3 and heading = 270 [ jump-north ]
+end
 
-set canMove [not isBlocked] of patch-ahead 1  ;change status of the patch ahead to unblocked
 
-ifelse canMove [                                          
-    set disregardBlock true
+to wait-if-necessary ;Attendre le nombre de ticks spécifiés
+  if [pcolor] of patch-here = red [
+    set waitingTime waitingTime + 1
+    show waitingTime
+    if waitingTime > attendre [
+      set waitingTimeOver true
+    ]
+  ]
+end
+
+
+to move-if-you-can
+  set goahead true
+
+  if [pcolor] of patch-here = red and not waitingTimeOver [ set goahead false ] ;; Je pourrais deja finir ici
+  
+  set canMove [not isBlocked] of patch-ahead 1  ;change status of the patch ahead to unblocked
+  if not canMove and not disregardBlock [ set goahead false ]
+  
+  if goahead [
+    block-section-if-necessary
+    adjustmyspeed
+    forward myspeed
+    reset-variables
+    adjustmyposition
+    unblock-section-if-necessary
+   ]
+end
+
+to block-section-if-necessary
+  if [pcolor] of patch-here = red [
     set counter 1
     while [ white = [pcolor] of patch-ahead counter ][      ;if patch ahead white,it is blocked
       ask patch-ahead counter [
@@ -144,14 +177,12 @@ ifelse canMove [
       ]
       set counter counter + 1
     ]
-    ;;show disregardBlock
-    forward 1
-    set turned false
-    set waitingTimeOver false
-    
-    if pcolor = red [                                      
-      set disregardBlock false                           ; if I just moved onto a station, unblock the stuff behind me
-      ;;show disregardBlock
+    set disregardBlock true
+  ]
+end
+
+to unblock-section-if-necessary
+  if [pcolor] of patch-here = red [                                      
       set counter 1
       
       while [ 88 = [pcolor] of patch-ahead (- counter) ] [
@@ -161,23 +192,29 @@ ifelse canMove [
         ]
         set counter counter + 1
       ]
+      set disregardBlock false                           ; if I just moved onto a station, unblock the stuff behind me
+      
+
     ]
-  ];else(if canMove = false)
-  [
-    if disregardBlock [                                      ;if disregard block=true he walks even though the route is blocked
-      forward 1
-    ]
-  ]                                                         ;;Terminal Station- turn around
- 
-                   
 end
 
-to at-station                                                   ;Attendre le nombre de ticks spécifiés
-  set waitingTime waitingTime + 1
-  show waitingTime
-  if waitingTime > attendre [
+to reset-variables
+    set turned false
+    set waitingTimeOver false
     set waitingTime 0
-    set waitingTimeOver true
+end
+
+to adjustmyspeed
+  ifelse [pcolor] of patch-here = red [
+    set myspeed 1
+  ][
+    set myspeed speed
+  ]
+end
+
+to adjustmyposition
+  if [pcolor] of patch-here = red [
+    set xcor [pxcor] of patch-here
   ]
 end
 @#$#@#$#@
@@ -260,25 +297,10 @@ NIL
 0
 
 SLIDER
-28
-389
-200
+25
 422
-speed
-speed
-0
-1
-1
-0.1
-1
-NIL
-HORIZONTAL
-
-SLIDER
-27
-460
-199
-493
+197
+455
 NumberMetros
 NumberMetros
 1
@@ -345,14 +367,29 @@ RENENS
 1
 
 TEXTBOX
-34
-430
-184
-458
+30
+392
+180
+420
 Nombre de metros qui partent à droite et à gauche
 11
 0.0
 1
+
+SLIDER
+314
+427
+486
+460
+speed
+speed
+0
+1
+0.3
+0.1
+1
+NIL
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?
