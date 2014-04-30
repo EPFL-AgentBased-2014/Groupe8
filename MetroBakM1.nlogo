@@ -60,7 +60,7 @@ to setup-turtles
   set xcor -30
   set ycor 0
   set heading 90
-  set color yellow
+  set color one-of base-colors
   set size 2
   set disregardBlock false
    ]
@@ -97,7 +97,7 @@ to move
     while [ white = [pcolor] of patch-ahead counter ][      ;if patch ahead white,it is blocked
       ask patch-ahead counter [
         set isBlocked true
-        set pcolor blue
+        set pcolor 88
       ]
       set counter counter + 1
     ]
@@ -109,7 +109,7 @@ to move
       ;;show disregardBlock
       set counter 1
       
-      while [ blue = [pcolor] of patch-ahead (- counter) ] [
+      while [ 88 = [pcolor] of patch-ahead (- counter) ] [
         ask patch-ahead (- counter) [
           set pcolor white
           set isBlocked false
@@ -128,12 +128,12 @@ to move
   ]
 end
 
-to at-station
+to at-station                                                   ;Attendre le nombre de ticks spécifiés
   set waitingTime waitingTime + 1
-    print waitingTime
-  ifelse waitingTime > 4 [
-    set waitingTime 0
-    set waitingTimeOver true
+     print waitingTime
+     ifelse waitingTime > attendre [
+        set waitingTime 0
+        set waitingTimeOver true
   ][ set waitingTimeOver false
   ]
 end
@@ -240,7 +240,7 @@ NumberMetros
 NumberMetros
 0
 15
-2
+3
 1
 1
 NIL
@@ -262,6 +262,31 @@ TEXTBOX
 1088
 483
 Echelle: 1 Station = 50m\n						x-coordonnée\nFlon-Vigie: 550m		11		flon 29\nVigie-Montelly: 850m		17		vigie 17\nMontelly-Provence: 450m		9		Montelly -1\nProvence-Malley: 400m		8		Provence -11\nMalley-Bourdonette: 1100m	22		Malley -20\n						Bourdonette 
+11
+0.0
+1
+
+SLIDER
+28
+353
+200
+386
+attendre
+attendre
+0
+10
+3
+1
+1
+NIL
+HORIZONTAL
+
+TEXTBOX
+35
+336
+185
+354
+Time Metro waits at Station
 11
 0.0
 1
