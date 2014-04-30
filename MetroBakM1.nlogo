@@ -1,3 +1,4 @@
+ ;;set mylist n-values 41 [? - 20]       ;creates list with result of calculation within brackets  ?takes every value from 0 to 41
 ;; ask patch-ahead 1 [ show pcolor ]
 ;; [pcolor] of patch-ahead 1
 ;; while [ white = [pcolor] of patch-adhead counter ] [ do something + set counter counter+1 ]
@@ -7,13 +8,19 @@
 ;; ]
 ;; SAVE YOUR FILE
 
+
+;waiting time
+;Fréquence??
+
 patches-own [
-  isBlocked             ;;whether a train can move over the patch
+  isBlocked ;boolean true- only the current train can move over the patch
+  waitingTime            
 ]
 turtles-own [
-  canMove
-  disregardBlock
-  counter               ;;counts iterations of while loop
+  canMove               ;boolean- true, i can move
+  disregardBlock        ;la métro qui a bloqué son tronçon peut quand même bouger
+  counter 
+  waitingTimeOver              ;;counts iterations of while loop
 ]
 
 ;;;;;;;;;;;;;;;;;;;;
@@ -24,20 +31,21 @@ to setup
   clear-all
   setup-patches
   setup-turtles
+  ask turtles [ set WaitingTimeOver true]
   reset-ticks
 end  
 
 ;;PATCHES
 
-to setup-patches
-  ;;set mylist n-values 41 [? - 20]  ;creates list with result of calculation within brackets  ?takes every value from 0 to 41
-  foreach n-values 41 [? - 20] [     ;creates a loop for :-D
-    ask patch ? 0 [                  ; every patch at x positions within list is set white
+to setup-patches                            ;Tracks - White
+  foreach n-values 60 [? - 30] [            ;creates a loop for :-D
+    ask patch ? 0 [                         ; every patch at x positions within list is set white
       set pcolor white
       set isBlocked false
     ]
   ]
-  foreach [-20 -10 10 20] [          ;list with x-positions of the stations
+  
+  foreach [-20 -11 -1 17 29] [           ;list with x-positions of the stations
     ask patch ? 0 [
       set pcolor red
      ]
@@ -47,36 +55,42 @@ end
 ;;TURTLES
 to setup-turtles
   set-default-shape turtles "train passenger car"
-  create-turtles 1 [
-  set xcor -20
+ 
+  create-turtles numberMetros [            ;set x-coordinates of right heading metros in list
+  set xcor -30
   set ycor 0
   set heading 90
   set color yellow
   set size 2
   set disregardBlock false
    ]
-  create-turtles 1 [
-  set xcor 20
-  set ycor 0
-  set heading 270
-  set color 125
-  set size 2
-  set disregardBlock false
-   ]
+  
+;  foreach [20 30]  [create-turtles 1 [
+;  set xcor ?
+;  set ycor 0
+;  set heading 270
+;  set color 125 ;magenta
+;  set size 2
+;  set disregardBlock false
+;   ]
+;  ]
 end
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;;Runtime Procedures;;
 ;;;;;;;;;;;;;;;;;;;;;;
+
 to go
   ask turtles [
-    move
+    if pcolor = red [at-station]
+   if waitingTimeOver [ move]
   ]
   tick
 end
 
 to move
-  set canMove [not isBlocked] of patch-ahead 1              ;change status of the patch ahead to unblocked
+  set canMove [not isBlocked] of patch-ahead 1  ;change status of the patch ahead to unblocked
+              
   ifelse canMove [                                          
     set disregardBlock true
     set counter 1
@@ -90,10 +104,11 @@ to move
     ;;show disregardBlock
     forward 1
     
-    if pcolor = red [                    ; if I just moved onto a station, unblock the stuff behind me
-      set disregardBlock false
+    if pcolor = red [                                      
+      set disregardBlock false                             ; if I just moved onto a station, unblock the stuff behind me
       ;;show disregardBlock
       set counter 1
+      
       while [ blue = [pcolor] of patch-ahead (- counter) ] [
         ask patch-ahead (- counter) [
           set pcolor white
@@ -102,23 +117,35 @@ to move
         set counter counter + 1
       ]
     ]
-  ];else (if canMove = false)
+  ];else(if canMove = false)
   [
-    ;; check if we want to disregard the block
     if disregardBlock [                                      ;if disregard block=true he walks even though the route is blocked
       forward 1
     ]
   ]
+  if black = [pcolor] of patch-ahead 1 [                      ;;Terminal Station- turn around
+    set heading heading - 180
+  ]
+end
+
+to at-station
+  set waitingTime waitingTime + 1
+    print waitingTime
+  ifelse waitingTime > 4 [
+    set waitingTime 0
+    set waitingTimeOver true
+  ][ set waitingTimeOver false
+  ]
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
--1
-110
-702
-327
-20
-5
-16.91
+15
+113
+1244
+323
+30
+4
+20.0
 1
 10
 1
@@ -128,10 +155,10 @@ GRAPHICS-WINDOW
 1
 1
 1
--20
-20
--5
-5
+-30
+30
+-4
+4
 1
 1
 1
@@ -173,10 +200,10 @@ NIL
 0
 
 BUTTON
-214
-42
-277
-75
+188
+34
+251
+67
 NIL
 go
 T
@@ -187,22 +214,57 @@ NIL
 NIL
 NIL
 NIL
-1
+0
 
 SLIDER
-23
-351
-195
-384
+28
+389
+200
+422
 speed
 speed
 0
 1
-1
+0.8
 0.1
 1
 NIL
 HORIZONTAL
+
+SLIDER
+27
+425
+199
+458
+NumberMetros
+NumberMetros
+0
+15
+2
+1
+1
+NIL
+HORIZONTAL
+
+TEXTBOX
+1211
+173
+1240
+191
+FLON
+11
+46.0
+1
+
+TEXTBOX
+754
+353
+1088
+483
+Echelle: 1 Station = 50m\n						x-coordonnée\nFlon-Vigie: 550m		11		flon 29\nVigie-Montelly: 850m		17		vigie 17\nMontelly-Provence: 450m		9		Montelly -1\nProvence-Malley: 400m		8		Provence -11\nMalley-Bourdonette: 1100m	22		Malley -20\n						Bourdonette 
+11
+0.0
+1
 
 @#$#@#$#@
 ## WHAT IS IT?
