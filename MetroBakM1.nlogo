@@ -10,7 +10,6 @@
 
 
 ;waiting time
-;Fréquence??
 
 patches-own [
   isBlocked ;boolean true- only the current train can move over the patch
@@ -31,24 +30,37 @@ to setup
   clear-all
   setup-patches
   setup-turtles
-  ask turtles [ set WaitingTimeOver true]
+  ask turtles [set WaitingTimeOver true]
   reset-ticks
 end  
 
 ;;PATCHES
 
 to setup-patches                            ;Tracks - White
-  foreach n-values 60 [? - 30] [            ;creates a loop for :-D
-    ask patch ? 0 [                         ; every patch at x positions within list is set white
+  foreach n-values 90 [? - 45] [            ;creates a loop for :-D
+    ask patch ? -3[                         ; every patch at x positions within list is set white
+      set pcolor white
+      set isBlocked false
+    ]
+  ]
+  foreach n-values 87 [? - 45] [            ;creates a loop for :-D
+    ask patch ? 3[                         ; every patch at x positions within list is set white
       set pcolor white
       set isBlocked false
     ]
   ]
   
-  foreach [-20 -11 -1 17 29] [           ;list with x-positions of the stations
-    ask patch ? 0 [
+  
+  foreach [44 33 15 5 -4 -27 -35] [           ;list with x-positions of the stations
+    ask patch ? -3 [
       set pcolor red
      ]
+  ]
+    foreach [-44 -33 -19 -6 3 17 30 41] [           ;list with x-positions of the stations
+    ask patch ?  3 [
+      set pcolor red
+     ]
+    
   ]
 end
 
@@ -57,9 +69,9 @@ to setup-turtles
   set-default-shape turtles "train passenger car"
  
   create-turtles numberMetros [            ;set x-coordinates of right heading metros in list
-  set xcor -30
-  set ycor 0
-  set heading 90
+  set xcor 47
+  set ycor 3
+  set heading 270
   set color one-of base-colors
   set size 2
   set disregardBlock false
@@ -81,11 +93,27 @@ end
 ;;;;;;;;;;;;;;;;;;;;;;
 
 to go
-  ask turtles [
+  jump-line
+  ask turtles [                                                 ;;!!!dés fois la métro arrivant prend le wait count de la métro déja la
     if pcolor = red [at-station]
-   if waitingTimeOver [ move]
+   if waitingTimeOver[move]
   ]
   tick
+end
+
+to jump-line                                                    ;;la turtle jump à la ligne dessous où dessus
+  ask turtles [ ifelse patch-here = patch -45 3 
+    [
+    set xcor -45
+    set ycor -3
+       ] [
+     if patch-here = patch -45 -3
+     [
+     set xcor -45
+     set ycor 3
+    ]
+  ]
+]  
 end
 
 to move
@@ -139,13 +167,13 @@ to at-station                                                   ;Attendre le nom
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-15
-113
-1244
-323
-30
-4
-20.0
+37
+98
+1226
+297
+45
+6
+13.0
 1
 10
 1
@@ -155,10 +183,10 @@ GRAPHICS-WINDOW
 1
 1
 1
--30
-30
--4
-4
+-45
+45
+-6
+6
 1
 1
 1
@@ -238,19 +266,19 @@ SLIDER
 458
 NumberMetros
 NumberMetros
-0
+1
 15
-3
+1
 1
 1
 NIL
 HORIZONTAL
 
 TEXTBOX
-1211
-173
-1240
-191
+1185
+218
+1214
+236
 FLON
 11
 46.0
@@ -275,7 +303,7 @@ attendre
 attendre
 0
 10
-3
+2
 1
 1
 NIL
@@ -289,6 +317,16 @@ TEXTBOX
 Time Metro waits at Station
 11
 0.0
+1
+
+TEXTBOX
+1140
+136
+1215
+154
+RENENS
+11
+45.0
 1
 
 @#$#@#$#@
