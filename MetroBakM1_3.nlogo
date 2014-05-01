@@ -12,13 +12,14 @@ globals [
   frequencyWaitOver
   frequencyWait
   retardTotal
+  conflicts
  
 ]
 
 patches-own [
   isBlocked                    ;boolean true- only the current train can move over the patch
   terminus  
-  depot         
+  depot           
 ]
 turtles-own [
   waitingTime 
@@ -30,6 +31,7 @@ turtles-own [
   goahead
   myspeed
   retard
+  justcountedconflict
   
 ]
 
@@ -40,8 +42,11 @@ turtles-own [
 to setup
   clear-all
   setup-patches
+  ask turtles [ set justcountedconflict 0]
   set frequencyWaitOver true
   set frequencyWait InjectionFrequency
+  set retardTotal 0
+  set conflicts 0
   reset-ticks
 end  
 
@@ -115,11 +120,10 @@ to go
     jump-if-necessary
     turn-if-necessary
     wait-if-necessary
-    move-if-you-can
-    measure-parameters
-  ]
-   print retardTotal
-    
+    move-if-you-can    
+    measureRetard
+    measureConflicts
+   ]  
   tick
 end
 
@@ -174,6 +178,7 @@ to wait-if-necessary ;Attendre le nombre de ticks spécifiés
 end
 
 to move-if-you-can
+  
   set goahead true
     if [pcolor] of patch-here = red and not waitingTimeOver [ set goahead false ]     ; Si j'ai pas fini mon waiting time -> wait
     
@@ -188,6 +193,7 @@ to move-if-you-can
     reset-variables
     adjustmyposition
     unblock-section-if-necessary
+    set justcountedconflict 0
    ]
 end
 
@@ -242,23 +248,21 @@ to unblock-section-if-necessary                                                 
     ]
 end
 
-to measure-parameters
-  measureConflicts
-  measureRetard    
-end
 
-
-to measureConflicts
-  
+to measureConflicts                                              ;if the maximal value of the list of how many turtles are on each station is bigger than 2 -> conflict
+  if  count turtles-here > 2  and justcountedconflict = 0 [
+    set conflicts conflicts + 1
+   ask turtles-here [set justcountedconflict 1]
+    set justcountedconflict 1
+  ]
 end
 
 
 to measureRetard
   if waitingTimeOver = true and [isBlocked = true] of patch-ahead 1  and not disregardBlock [
-  set retard retard + 1
-  show retard
+    set retard retard + 1
   ]
-  set retardTotal sum [retard] of turtles 
+ set retardTotal sum [retard] of turtles 
   
 end
 
@@ -351,7 +355,7 @@ NumberMetros
 NumberMetros
 2
 16
-8
+16
 2
 1
 NIL
@@ -386,7 +390,7 @@ attendre
 attendre
 30
 180
-50
+70
 5
 1
 s
@@ -630,6 +634,17 @@ MONITOR
 273
 Retard combiné de tous les Métros (s)
 retardTotal
+17
+1
+11
+
+MONITOR
+414
+309
+472
+354
+NIL
+conflicts
 17
 1
 11
