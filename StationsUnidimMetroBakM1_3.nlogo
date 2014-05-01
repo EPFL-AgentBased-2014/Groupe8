@@ -67,12 +67,12 @@ to setup-patches                            ;Tracks - White
   ]
   
   
-  foreach [44 33 15 5 -4 -27 -35 -45] [           ;list with x-positions of the stations
+  foreach [44 33 15 -4 -27 -35 -45] [           ;list with x-positions of the stations
     ask patch ? -3 [
       set pcolor red
      ]
   ]
-    foreach [-45 -33 -19 -6 3 17 30 41] [           ;list with x-positions of the stations
+    foreach [-45 -19 3 17 30 41] [           ;list with x-positions of the stations
     ask patch ?  3 [
       set pcolor red
     ]
@@ -169,7 +169,7 @@ end
 
 
 to wait-if-necessary ;Attendre le nombre de ticks spécifiés
-  if [pcolor] of patch-here = red [
+  if [pcolor] of patch-here = red or patch-here = patch 5 -3 or patch-here = patch -6 3 or patch-here = patch -33 3[
     set waitingTime waitingTime + 1
     if waitingTime > waitingTimeAtStation [
       set waitingTimeOver true
@@ -180,7 +180,7 @@ end
 to move-if-you-can
   
   set goahead true
-    if [pcolor] of patch-here = red and not waitingTimeOver [ set goahead false ]     ; Si j'ai pas fini mon waiting time -> wait
+    if [pcolor] of patch-here = red or patch-here = patch 5 -3 or patch-here = patch -6 3 or patch-here = patch -33 3 and not waitingTimeOver [ set goahead false ]     ; Si j'ai pas fini mon waiting time -> wait
     
     set canMove [not isBlocked] of patch-ahead 1                                      ;is it blocked ahead??   
     if not canMove and not disregardBlock [ set goahead false ]  ;if it is blocked and I cannot disregard the block -> wait.   ;;Injection frequency over??
@@ -226,7 +226,7 @@ to reset-variables                                                              
 end
 
 to adjustmyposition
-  if [pcolor] of patch-here = red [
+  if [pcolor] of patch-here = red or patch-here = patch 5 -3 or patch-here = patch -6 3 or patch-here = patch -33 3[
     set xcor [pxcor] of patch-here
   ]
 end
@@ -253,7 +253,6 @@ to measureConflicts                                              ;if the maximal
   if  count turtles-here > 2  and justcountedconflict = 0 [
     set conflicts conflicts + 1
    ask turtles-here [set justcountedconflict 1]
-    set justcountedconflict 1
   ]
 end
 
@@ -596,7 +595,7 @@ TEXTBOX
 392
 371
 420
-Velocity Max. M1 = 17m/s ->  60km/h
+Velocity Max. M1 = 17m/s -> 60km/h
 11
 0.0
 1
