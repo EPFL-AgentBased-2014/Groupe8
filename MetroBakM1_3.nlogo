@@ -10,9 +10,15 @@
 
 ;count metros on station
 
+globals [
+  frequencyWaitOver
+  frequencyWait
+]
+
 patches-own [
   isBlocked                    ;boolean true- only the current train can move over the patch
-  terminus           
+  terminus  
+  depot         
 ]
 turtles-own [
   waitingTime 
@@ -23,6 +29,7 @@ turtles-own [
   turned
   goahead
   myspeed
+  
 ]
 
 ;;;;;;;;;;;;;;;;;;;;
@@ -32,8 +39,12 @@ turtles-own [
 to setup
   clear-all
   setup-patches
-  setup-turtles
-  ask turtles [set WaitingTimeOver true]
+  ;setup-turtles
+  set frequencyWaitOver true
+  set frequencyWait InjectionFrequency
+;  ask turtles [
+;    set WaitingTimeOver true
+;    ]
   reset-ticks
 end  
 
@@ -62,8 +73,7 @@ to setup-patches                            ;Tracks - White
     foreach [-45 -33 -19 -6 3 17 30 41] [           ;list with x-positions of the stations
     ask patch ?  3 [
       set pcolor red
-     ]
-    
+    ]
   ]
   ask patches [set terminus false]                 ;definir flon et Renens comme terminus- il tourne de 180degrées
   ask patch 41 3 [ set terminus true]
@@ -73,7 +83,7 @@ end
 ;;TURTLES
 to setup-turtles
   set-default-shape turtles "train passenger car"
-   create-turtles numberMetros [                   ;set x-coordinates of right heading metros in list
+   create-turtles 1 [                   ;set x-coordinates of right heading metros in list
    set xcor -19
    set ycor 3
    set heading 90
@@ -81,9 +91,10 @@ to setup-turtles
    set size 2
    set disregardBlock false
    set turned false
+   set WaitingTimeOver true
 ]
   
-  create-turtles numberMetros [
+  create-turtles 1 [
   set xcor -19
   set ycor 3
   set heading 270
@@ -91,6 +102,7 @@ to setup-turtles
   set size 2
   set disregardBlock false
   set turned false
+  set WaitingTimeOver true
    ]
 end
 
@@ -99,15 +111,29 @@ end
 ;;;;;;;;;;;;;;;;;;;;;;
 
 to go 
-  show max [count turtles in-radius 0] of patches with [pcolor = red]   ;counts turtles on red patches
-  
+  ;show max [count turtles in-radius 0] of patches with [pcolor = red]   ;counts turtles on red patches
+  create-metros
   ask turtles [
     jump-if-necessary
     turn-if-necessary
     wait-if-necessary
     move-if-you-can
+    show injectionFrequency
   ]
   tick
+end
+
+to create-metros
+ if count turtles < NumberMetros and frequencyWaitOver [
+   setup-turtles 
+   set frequencyWaitOver false 
+ ]
+   set frequencyWait frequencyWait - 1
+    if frequencyWait = 0 [  
+    set frequencyWaitOver true
+    set frequencyWait InjectionFrequency
+  ]
+
 end
 
 to jump-if-necessary
@@ -145,6 +171,13 @@ to wait-if-necessary ;Attendre le nombre de ticks spécifiés
       set waitingTimeOver true
     ]
   ]
+
+;if patch-here = patch -19 3 [
+;  set ToWait ToWait + 1
+;  if ToWait > InjectionFrequency [
+;    set InjectionFrequencyOver true
+;  ]
+;]
 end
 
 
@@ -156,6 +189,7 @@ to move-if-you-can
   
   set canMove [not isBlocked] of patch-ahead 1                                      ;is it blocked ahead??   
   if not canMove and not disregardBlock [ set goahead false ]  ;if it is blocked and I cannot disregard the block -> wait.   ;;Injection frequency over??
+  
   
   if goahead [
     block-section-if-necessary
@@ -217,7 +251,6 @@ to unblock-section-if-necessary                                                 
 
     ]
 end
-
 
 
 
@@ -311,7 +344,7 @@ NumberMetros
 NumberMetros
 1
 15
-3
+6
 1
 1
 NIL
@@ -346,7 +379,7 @@ attendre
 attendre
 30
 180
-60
+50
 5
 1
 s
@@ -581,16 +614,16 @@ TEXTBOX
 SLIDER
 24
 464
-198
+202
 497
 InjectionFrequency
 InjectionFrequency
-0
-15
-3
+20
+40
+14
+30
 1
-1
-min
+ticks
 HORIZONTAL
 
 @#$#@#$#@
