@@ -215,7 +215,7 @@ to adjustmyspeed                                                                
   ifelse [pcolor] of patch-here = red [                                           ;in the next step set it on speed again
     set myspeed 1
   ][
-    set myspeed speed / 30
+    set myspeed speed / 50
   ]
 end
 
@@ -264,7 +264,6 @@ to measureRetard
  set retardTotal sum [retard] of turtles 
   
 end
-
 @#$#@#$#@
 GRAPHICS-WINDOW
 35
@@ -388,7 +387,7 @@ waitingTimeAtStation
 waitingTimeAtStation
 30
 180
-70
+2
 5
 1
 s
@@ -423,7 +422,7 @@ speed
 speed
 0
 50
-18
+50
 2
 1
 m/s
@@ -619,7 +618,7 @@ InjectionFrequency
 InjectionFrequency
 0
 900
-180
+900
 60
 1
 s
@@ -1017,21 +1016,25 @@ NetLogo 5.0.5
 @#$#@#$#@
 @#$#@#$#@
 <experiments>
-  <experiment name="experiment" repetitions="1" runMetricsEveryStep="false">
+  <experiment name="experiment" repetitions="1" runMetricsEveryStep="true">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="8000"/>
-    <metric>delay</metric>
-    <metric>conflict</metric>
-    <enumeratedValueSet variable="InjectionFrequency">
-      <value value="180"/>
+    <metric>retardTotal</metric>
+    <metric>conflicts</metric>
+    <enumeratedValueSet variable="speed">
+      <value value="18"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="attendre">
-      <value value="30"/>
-    </enumeratedValueSet>
-    <steppedValueSet variable="speed" first="20" step="5" last="60"/>
     <enumeratedValueSet variable="NumberMetros">
-      <value value="10"/>
+      <value value="16"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="waitingTimeAtStation">
+      <value value="60"/>
+      <value value="2"/>
+      <value value="70"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="InjectionFrequency">
+      <value value="900"/>
     </enumeratedValueSet>
   </experiment>
 </experiments>

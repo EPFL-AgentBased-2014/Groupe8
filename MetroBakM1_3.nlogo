@@ -168,7 +168,7 @@ to turn-if-necessary
 end
 
 
-to wait-if-necessary ;Attendre le nombre de ticks spécifiés
+to wait-if-necessary                               ;;Attendre le nombre de ticks spécifiés
   if [pcolor] of patch-here = red [
     set waitingTime waitingTime + 1
     if waitingTime > waitingTimeAtStation [
@@ -215,7 +215,7 @@ to adjustmyspeed                                                                
   ifelse [pcolor] of patch-here = red [                                           ;in the next step set it on speed again
     set myspeed 1
   ][
-    set myspeed speed / 30
+    set myspeed speed / 50
   ]
 end
 
@@ -265,7 +265,6 @@ to measureRetard
  set retardTotal sum [retard] of turtles 
   
 end
-
 @#$#@#$#@
 GRAPHICS-WINDOW
 35
@@ -389,7 +388,7 @@ waitingTimeAtStation
 waitingTimeAtStation
 30
 180
-70
+30
 5
 1
 s
@@ -424,7 +423,7 @@ speed
 speed
 0
 50
-18
+50
 2
 1
 m/s
@@ -620,7 +619,7 @@ InjectionFrequency
 InjectionFrequency
 0
 900
-180
+60
 60
 1
 s
@@ -638,10 +637,10 @@ retardTotal
 11
 
 MONITOR
-414
-309
-472
-354
+384
+281
+442
+326
 NIL
 conflicts
 17
@@ -1022,13 +1021,13 @@ NetLogo 5.0.5
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="8000"/>
-    <metric>delay</metric>
-    <metric>conflict</metric>
+    <metric>retardTotal</metric>
+    <metric>conflicts</metric>
     <enumeratedValueSet variable="InjectionFrequency">
       <value value="180"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="attendre">
-      <value value="30"/>
+      <value value="40"/>
     </enumeratedValueSet>
     <steppedValueSet variable="speed" first="20" step="5" last="60"/>
     <enumeratedValueSet variable="NumberMetros">
