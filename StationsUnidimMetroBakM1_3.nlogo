@@ -212,7 +212,7 @@ to block-section-if-necessary                                                   
 end
 
 to adjustmyspeed                                                                  ;in order to not sto twice on a station (if speed <1) set the speed to 1 if I am on a station
-  ifelse [pcolor] of patch-here = red [                                           ;in the next step set it on speed again
+  ifelse [pcolor] of patch-here = red or patch-here = patch 5 -3 or patch-here = patch -6 3 or patch-here = patch -33 3[                                           ;in the next step set it on speed again
     set myspeed 1
   ][
     set myspeed speed / 50
@@ -352,7 +352,7 @@ NumberMetros
 NumberMetros
 2
 16
-1
+2
 2
 1
 NIL
@@ -387,7 +387,7 @@ waitingTimeAtStation
 waitingTimeAtStation
 30
 180
-65
+35
 5
 1
 s
@@ -422,7 +422,7 @@ speed
 speed
 0
 50
-50
+2
 2
 1
 m/s
@@ -618,7 +618,7 @@ InjectionFrequency
 InjectionFrequency
 0
 900
-120
+60
 60
 1
 s
@@ -1016,31 +1016,30 @@ NetLogo 5.0.5
 @#$#@#$#@
 @#$#@#$#@
 <experiments>
-  <experiment name="experiment" repetitions="1" runMetricsEveryStep="false">
+  <experiment name="experiment complet" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
+    <timeLimit steps="8000"/>
     <metric>retardTotal</metric>
     <metric>conflicts</metric>
+    <steppedValueSet variable="speed" first="5" step="1" last="50"/>
+    <steppedValueSet variable="waitingTimeAtStation" first="30" step="5" last="180"/>
+    <steppedValueSet variable="NumberMetros" first="2" step="2" last="16"/>
+    <steppedValueSet variable="InjectionFrequency" first="60" step="60" last="180"/>
+  </experiment>
+  <experiment name="experiment limité" repetitions="1" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="8000"/>
+    <metric>count turtles</metric>
     <enumeratedValueSet variable="speed">
-      <value value="5"/>
-      <value value="1"/>
-      <value value="50"/>
+      <value value="17"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="waitingTimeAtStation">
-      <value value="30"/>
-      <value value="5"/>
-      <value value="180"/>
+      <value value="45"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="NumberMetros">
-      <value value="2"/>
-      <value value="2"/>
-      <value value="16"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="InjectionFrequency">
-      <value value="60"/>
-      <value value="60"/>
-      <value value="180"/>
-    </enumeratedValueSet>
+    <steppedValueSet variable="NumberMetros" first="2" step="2" last="16"/>
+    <steppedValueSet variable="InjectionFrequency" first="60" step="60" last="180"/>
   </experiment>
 </experiments>
 @#$#@#$#@
