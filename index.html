@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Groupe8 by EPFL-AgentBased-2014</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Groupe8</h1>
+        <p></p>
+
+        <p class="view"><a href="https://github.com/EPFL-AgentBased-2014/Groupe8">View the Project on GitHub <small>EPFL-AgentBased-2014/Groupe8</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/EPFL-AgentBased-2014/Groupe8/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/EPFL-AgentBased-2014/Groupe8/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/EPFL-AgentBased-2014/Groupe8">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <p><a href="http://epfl-agentbased-2014.github.io/">&lt;&lt;&lt; EPFL Semaine ENAC - Modèles Basés-Agents</a></p>
+
+<p><strong>Résumé</strong></p>
+
+<p>In auctor quis turpis at vehicula. Quisque non lectus ac augue rhoncus suscipit non eu turpis. Morbi tincidunt viverra volutpat. Phasellus mattis elit massa, ut eleifend lectus tincidunt sed. Quisque in adipiscing lectus, eget tincidunt justo. Fusce erat justo, suscipit vel interdum faucibus, scelerisque nec diam. Vestibulum bibendum aliquet eros, sed ullamcorper sem laoreet at. Etiam sed ante erat. Maecenas dictum tincidunt tincidunt.</p>
+
+<h1>
+<a name="introduction--int%C3%A9r%C3%AAt-de-la-recherche" class="anchor" href="#introduction--int%C3%A9r%C3%AAt-de-la-recherche"><span class="octicon octicon-link"></span></a>Introduction / Intérêt de la recherche</h1>
+
+<p>Le trafic ferroviaire est en général pensé et modélisé de façon top-down. Peut-on le modéliser suivant un processus bottom-up, et comment ? (C'est-à-dire, le trafic peut-il être défini en fonction des paramètres des rames elles-mêmes?)</p>
+
+<h1>
+<a name="objectifs-et-hypoth%C3%A8ses" class="anchor" href="#objectifs-et-hypoth%C3%A8ses"><span class="octicon octicon-link"></span></a>Objectifs et hypothèses</h1>
+
+<p>Objectifs : Modéliser un trafic ferroviaire (métro) de type bottom-up selon des paramètres de fréquence, vitesse, temps d'arrêt, trajet. </p>
+
+<p>But : parvenir a une configuration optimale d'un maximum de deux métros arrêtés par station. (Voire un seul métro pour certaines stations – Bassenges p.ex). </p>
+
+<p>Hypothèse : avec un temps d'arrêt minimal à chaque station et une information en temps réel, une fréquence optimale peut être trouvée pour une certaine vitesse de circulation des rames. </p>
+
+<h1>
+<a name="m%C3%A9thodes-et-proc%C3%A9dures" class="anchor" href="#m%C3%A9thodes-et-proc%C3%A9dures"><span class="octicon octicon-link"></span></a>Méthodes et procédures</h1>
+
+<p>On modélise le m1.</p>
+
+<p>Éléments
+Fixes : Trois types de patchs sont crées : stations, rails, terminus. 
+Mobiles : Les agents (turtles) sont les rames de métro, se déplaçant sur les patchs rails et stations.</p>
+
+<p>Relations spatiales : Chaque type de patch a ses propriétés.
+Les patchs rails ne peuvent accueillir qu'un seul agent à la fois, peu importe sa direction.
+Les patchs stations imposent l'arrêt aux agents et peuvent accueillir un nombre (pour l'instant !9 illimité d'agents. 
+Les patchs terminus sont des stations aux extrémités de l'espace, qui imposent aux agents de faire demi-tour afin de poursuivre leur trajet dans l'autre sens.
+Les agents ont le pouvoir de changer l'état du patch rail de « libre » à « occupé ».
+Un agent ne peut quitter une station que si le patch rail sur lequel il veut se rendre est libre. </p>
+
+<h2>
+<a name="processus" class="anchor" href="#processus"><span class="octicon octicon-link"></span></a>Processus</h2>
+
+<p><img src="https://raw.githubusercontent.com/EPFL-AgentBased-2014/Cours/master/Images/Wheeler-FoxHuntingRabbits.jpg" alt="Un exemple d'image"></p>
+
+<h1>
+<a name="r%C3%A9sultats" class="anchor" href="#r%C3%A9sultats"><span class="octicon octicon-link"></span></a>Résultats</h1>
+
+<p>Praesent non diam at lacus rhoncus pulvinar eu adipiscing purus. Suspendisse suscipit metus justo, at placerat sapien commodo quis. Sed cursus velit vel iaculis egestas. Proin ligula enim, tincidunt at eros in, sollicitudin malesuada quam. Mauris pretium lacus et erat pretium tristique. Morbi eget nisi sed justo dapibus hendrerit. Donec ut accumsan turpis, at lobortis arcu. Curabitur ornare rutrum est a consectetur. In blandit imperdiet faucibus. Mauris elementum neque mi, sit amet ultricies diam adipiscing a. Ut porta mi purus, ac dignissim metus pharetra sed. Donec ac ligula at turpis dictum posuere id nec tortor.</p>
+
+<h1>
+<a name="discussion-et-conclusion" class="anchor" href="#discussion-et-conclusion"><span class="octicon octicon-link"></span></a>Discussion et conclusion</h1>
+
+<p>Donec vel fermentum nisl, et laoreet metus. Donec scelerisque sollicitudin urna, in viverra est fermentum tincidunt. Maecenas mi arcu, eleifend vitae augue eget, feugiat imperdiet purus. Curabitur blandit lorem ut laoreet rutrum. Morbi consectetur, sem vel porta sodales, ante tortor bibendum risus, id pharetra arcu urna a enim. Nunc a pulvinar enim, eu condimentum magna. Donec vitae eros auctor, ultricies risus quis, pulvinar sapien. Duis feugiat vitae eros vitae mattis. In hac habitasse platea dictumst. Praesent auctor nec tortor in varius. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas ac accumsan erat, quis eleifend lectus. Sed vulputate suscipit justo vel blandit. Nam quis diam volutpat, blandit tortor at, rhoncus arcu. In hac habitasse platea dictumst.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/EPFL-AgentBased-2014">EPFL-AgentBased-2014</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
