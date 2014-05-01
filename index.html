@@ -62,18 +62,19 @@
 <li>Éléments
 
 <ul>
-<li>Fixes : Trois types de patchs sont crées : stations, rails, terminus. </li>
+<li>Fixes : Quatre types de patchs sont crées : dépôt, stations, rails, terminus. </li>
 <li>Mobiles : Les agents (turtles) sont les rames de métro, se déplaçant sur les patchs rails et stations.</li>
 </ul>
 </li>
 <li>Relations spatiales : Chaque type de patch a ses propriétés, et patchs et agents interagissent.
 
 <ul>
-<li>Les patchs rails ne peuvent accueillir qu'un seul agent à la fois, peu importe sa direction.</li>
-<li>Les patchs stations imposent l'arrêt aux agents et peuvent accueillir un nombre (pour l'instant !) illimité d'agents. </li>
-<li>Les patchs terminus sont des stations aux extrémités de l'espace, qui imposent aux agents de faire demi-tour afin de poursuivre leur trajet dans l'autre sens.</li>
-<li>Les agents ont le pouvoir de changer l'état du patch rail de « libre » à « occupé ».</li>
-<li>Un agent ne peut quitter une station que si le patch rail sur lequel il veut se rendre est libre. </li>
+<li>Les patchs rails ne peuvent accueillir qu'<strong>un seul agent</strong> à la fois, peu importe sa direction.</li>
+<li>Les patchs stations imposent l'<strong>arrêt</strong> aux agents et peuvent accueillir un nombre (pour l'instant !) illimité d'agents. </li>
+<li>Les patchs terminus sont des stations aux extrémités de l'espace, qui imposent aux agents de faire <strong>demi-tour</strong> afin de poursuivre leur trajet dans l'autre sens.</li>
+<li>Le patch dépôt est situé à "EPFL". Il représente le <strong>lieu d'injection</strong> des rames de métro sur le parcours.</li>
+<li>Les agents ont le pouvoir de <strong>changer l'état</strong> du patch rail de « libre » à « occupé ».</li>
+<li>Un agent ne peut quitter une station que si le patch rail sur lequel il veut se rendre est <strong>libre.</strong> </li>
 </ul>
 </li>
 </ul><h2>
