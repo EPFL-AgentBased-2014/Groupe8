@@ -32,9 +32,11 @@
 
 <p><strong>Résumé</strong></p>
 
-<p>In auctor quis turpis at vehicula. Quisque non lectus ac augue rhoncus suscipit non eu turpis. Morbi tincidunt viverra volutpat. Phasellus mattis elit massa, ut eleifend lectus tincidunt sed. Quisque in adipiscing lectus, eget tincidunt justo. Fusce erat justo, suscipit vel interdum faucibus, scelerisque nec diam. Vestibulum bibendum aliquet eros, sed ullamcorper sem laoreet at. Etiam sed ante erat. Maecenas dictum tincidunt tincidunt.</p>
-
-<h1>
+<ul>
+<li>Le travail produit modélise le déplacement des rames de métro sur la ligne M1 (Lausanne).</li>
+<li>L'objectif est d'influencer les paramètres fréquence d'injection des rames, vitesse, temps d'attente à chaque station et le nombre de rames présentes sur la ligne pour trouver une configuration où les retards et conflits (trop de métros à une station) sont minimaux.</li>
+<li>Les agents sont les rames et les patchs les voies et stations. </li>
+</ul><h1>
 <a name="introduction--int%C3%A9r%C3%AAt-de-la-recherche" class="anchor" href="#introduction--int%C3%A9r%C3%AAt-de-la-recherche"><span class="octicon octicon-link"></span></a>Introduction / Intérêt de la recherche</h1>
 
 <p>Le trafic ferroviaire est en général pensé et modélisé de façon top-down. Peut-on le modéliser suivant un processus bottom-up, et comment ? (C'est-à-dire, le trafic peut-il être défini en fonction des paramètres des rames elles-mêmes?)</p>
@@ -43,7 +45,7 @@
 <a name="objectifs-et-hypoth%C3%A8ses" class="anchor" href="#objectifs-et-hypoth%C3%A8ses"><span class="octicon octicon-link"></span></a>Objectifs et hypothèses</h1>
 
 <ul>
-<li>Objectifs : Modéliser un trafic ferroviaire (métro) de type bottom-up selon des paramètres de fréquence, vitesse, temps d'arrêt, trajet. </li>
+<li>Objectifs : Modéliser un trafic ferroviaire (métro) de type bottom-up selon des paramètres de fréquence d'injection, vitesse, temps d'arrêt, nombre de rames en circulation. </li>
 <li>But : parvenir a une configuration optimale d'un maximum de deux métros arrêtés par station. (Voire un seul métro pour certaines stations – Bassenges p.ex). </li>
 <li>Hypothèse : avec un temps d'arrêt minimal à chaque station et une information en temps réel, une fréquence optimale peut être trouvée pour une certaine vitesse de circulation des rames. 
 
