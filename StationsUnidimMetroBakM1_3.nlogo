@@ -352,7 +352,7 @@ NumberMetros
 NumberMetros
 2
 16
-16
+1
 2
 1
 NIL
@@ -387,7 +387,7 @@ waitingTimeAtStation
 waitingTimeAtStation
 30
 180
-2
+65
 5
 1
 s
@@ -618,7 +618,7 @@ InjectionFrequency
 InjectionFrequency
 0
 900
-900
+120
 60
 1
 s
@@ -1016,25 +1016,30 @@ NetLogo 5.0.5
 @#$#@#$#@
 @#$#@#$#@
 <experiments>
-  <experiment name="experiment" repetitions="1" runMetricsEveryStep="true">
+  <experiment name="experiment" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="8000"/>
     <metric>retardTotal</metric>
     <metric>conflicts</metric>
     <enumeratedValueSet variable="speed">
-      <value value="18"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="NumberMetros">
-      <value value="16"/>
+      <value value="5"/>
+      <value value="1"/>
+      <value value="50"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="waitingTimeAtStation">
-      <value value="60"/>
+      <value value="30"/>
+      <value value="5"/>
+      <value value="180"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="NumberMetros">
       <value value="2"/>
-      <value value="70"/>
+      <value value="2"/>
+      <value value="16"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="InjectionFrequency">
-      <value value="900"/>
+      <value value="60"/>
+      <value value="60"/>
+      <value value="180"/>
     </enumeratedValueSet>
   </experiment>
 </experiments>
