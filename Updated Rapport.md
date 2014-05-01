@@ -7,9 +7,9 @@ Le trafic ferroviaire est en général pensé et modélisé de façon top-down. 
 
 Modéliser un trafic ferroviaire (métro) de type bottom-up selon des paramètres de fréquence, vitesse, temps d'arrêt, trajet.
 
-Hypothèse : avec un temps d'arrêt minimal à chaque station et une information en temps réel, une fréquence optimale peut être trouvée pour une certaine vitesse de circulation des rames.
+Hypothèses : avec un temps d'arrêt minimal à chaque station et une information en temps réel, une fréquence optimale peut être trouvée pour une certaine vitesse de circulation des rames. Le modèle ne fait pas intervenir de variables stochastiques (c'est-à-dire de variables aléatoires).
 
-But : parvenir a une configuration optimale d'un maximum de deux métros arrêtés par station. (Voire un seul métro pour certaines stations – Bassenges p.ex). 
+Buts : parvenir a une configuration optimale d'un maximum de deux métros arrêtés par station. (Voire un seul métro pour certaines stations – Bassenges p.ex). 
 
 
 ###3. Méthodes et procédures
