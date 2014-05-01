@@ -8,11 +8,11 @@
 ;; ]
 ;; SAVE YOUR FILE
 
-;count metros on station
-
 globals [
   frequencyWaitOver
   frequencyWait
+  retardTotal
+ 
 ]
 
 patches-own [
@@ -29,6 +29,7 @@ turtles-own [
   turned
   goahead
   myspeed
+  retard
   
 ]
 
@@ -39,12 +40,8 @@ turtles-own [
 to setup
   clear-all
   setup-patches
-  ;setup-turtles
   set frequencyWaitOver true
   set frequencyWait InjectionFrequency
-;  ask turtles [
-;    set WaitingTimeOver true
-;    ]
   reset-ticks
 end  
 
@@ -92,6 +89,7 @@ to setup-turtles
    set disregardBlock false
    set turned false
    set WaitingTimeOver true
+   set retard 0
 ]
   
   create-turtles 1 [
@@ -103,7 +101,8 @@ to setup-turtles
   set disregardBlock false
   set turned false
   set WaitingTimeOver true
-   ]
+  set retard 0
+ ]
 end
 
 ;;;;;;;;;;;;;;;;;;;;;;
@@ -111,20 +110,22 @@ end
 ;;;;;;;;;;;;;;;;;;;;;;
 
 to go 
-  ;show max [count turtles in-radius 0] of patches with [pcolor = red]   ;counts turtles on red patches
   create-metros
-  ask turtles [
+   ask turtles [
     jump-if-necessary
     turn-if-necessary
     wait-if-necessary
     move-if-you-can
-    show injectionFrequency
+    measure-parameters
   ]
+   print retardTotal
+    
   tick
 end
 
 to create-metros
- if count turtles < NumberMetros and frequencyWaitOver [
+ if count turtles < NumberMetros and frequencyWaitOver = true 
+   [
    setup-turtles 
    set frequencyWaitOver false 
  ]
@@ -133,7 +134,6 @@ to create-metros
     set frequencyWaitOver true
     set frequencyWait InjectionFrequency
   ]
-
 end
 
 to jump-if-necessary
@@ -169,26 +169,16 @@ to wait-if-necessary ;Attendre le nombre de ticks spécifiés
     set waitingTime waitingTime + 1
     if waitingTime > attendre [
       set waitingTimeOver true
-    ]
   ]
-
-;if patch-here = patch -19 3 [
-;  set ToWait ToWait + 1
-;  if ToWait > InjectionFrequency [
-;    set InjectionFrequencyOver true
-;  ]
-;]
+]
 end
-
 
 to move-if-you-can
   set goahead true
-
-  if [pcolor] of patch-here = red and not waitingTimeOver [ set goahead false ]     ; Si j'ai pas fini mon waiting time -> wait
-  
-  
-  set canMove [not isBlocked] of patch-ahead 1                                      ;is it blocked ahead??   
-  if not canMove and not disregardBlock [ set goahead false ]  ;if it is blocked and I cannot disregard the block -> wait.   ;;Injection frequency over??
+    if [pcolor] of patch-here = red and not waitingTimeOver [ set goahead false ]     ; Si j'ai pas fini mon waiting time -> wait
+    
+    set canMove [not isBlocked] of patch-ahead 1                                      ;is it blocked ahead??   
+    if not canMove and not disregardBlock [ set goahead false ]  ;if it is blocked and I cannot disregard the block -> wait.   ;;Injection frequency over??
   
   
   if goahead [
@@ -252,8 +242,25 @@ to unblock-section-if-necessary                                                 
     ]
 end
 
+to measure-parameters
+  measureConflicts
+  measureRetard    
+end
 
 
+to measureConflicts
+  
+end
+
+
+to measureRetard
+  if waitingTimeOver = true and [isBlocked = true] of patch-ahead 1  and not disregardBlock [
+  set retard retard + 1
+  show retard
+  ]
+  set retardTotal sum [retard] of turtles 
+  
+end
 
 
 @#$#@#$#@
@@ -337,15 +344,15 @@ NIL
 
 SLIDER
 25
-422
+394
 197
-455
+427
 NumberMetros
 NumberMetros
-1
-15
-6
-1
+2
+16
+8
+2
 1
 NIL
 HORIZONTAL
@@ -405,16 +412,6 @@ RENENS
 45.0
 1
 
-TEXTBOX
-30
-392
-180
-420
-Nombre de metros qui partent à droite et à gauche
-11
-0.0
-1
-
 SLIDER
 216
 354
@@ -423,8 +420,8 @@ SLIDER
 speed
 speed
 0
-30
-30
+50
+18
 2
 1
 m/s
@@ -571,7 +568,7 @@ UNIL SORGE
 1
 
 PLOT
-478
+619
 254
 1204
 492
@@ -586,7 +583,7 @@ true
 true
 "" ""
 PENS
-"default" 1.0 0 -16777216 true "" "plot max [count turtles in-radius 0] of patches with [pcolor = red]"
+"default" 1.0 0 -16777216 true "" "plot max [count turtles-here] of patches with [pcolor = red]"
 "2 Metros" 1.0 0 -10899396 true "" "plot 2"
 "4 Metros" 1.0 0 -2674135 true "" "plot 4"
 "6 Metros" 1.0 0 -5825686 true "" "plot 6"
@@ -612,19 +609,30 @@ TEXTBOX
 1
 
 SLIDER
-24
-464
-202
-497
+27
+434
+199
+467
 InjectionFrequency
 InjectionFrequency
-20
-40
-14
-30
+0
+900
+180
+60
 1
-ticks
+s
 HORIZONTAL
+
+MONITOR
+385
+228
+608
+273
+Retard combiné de tous les Métros (s)
+retardTotal
+17
+1
+11
 
 @#$#@#$#@
 ## WHAT IS IT?
@@ -995,6 +1003,25 @@ NetLogo 5.0.5
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
+<experiments>
+  <experiment name="experiment" repetitions="1" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="8000"/>
+    <metric>delay</metric>
+    <metric>conflict</metric>
+    <enumeratedValueSet variable="InjectionFrequency">
+      <value value="180"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="attendre">
+      <value value="30"/>
+    </enumeratedValueSet>
+    <steppedValueSet variable="speed" first="20" step="5" last="60"/>
+    <enumeratedValueSet variable="NumberMetros">
+      <value value="10"/>
+    </enumeratedValueSet>
+  </experiment>
+</experiments>
 @#$#@#$#@
 @#$#@#$#@
 default
