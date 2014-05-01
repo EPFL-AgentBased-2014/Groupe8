@@ -33,8 +33,6 @@ to setup
   clear-all
   setup-patches
   setup-turtles
-;  ask patch 45 -3 [set isBlocked false]
-;  ask patch 42 3 [set isBlocked false]
   ask turtles [set WaitingTimeOver true]
   reset-ticks
 end  
@@ -49,7 +47,7 @@ to setup-patches                            ;Tracks - White
     ]
   ]
   foreach n-values 87 [? - 45] [            ;creates a loop for :-D
-    ask patch ? 3[                         ; every patch at x positions within list is set white
+    ask patch ? 3[                          ;every patch at x positions within list is set white
       set pcolor white
       set isBlocked false
     ]
@@ -76,7 +74,7 @@ end
 to setup-turtles
   set-default-shape turtles "train passenger car"
    create-turtles numberMetros [                   ;set x-coordinates of right heading metros in list
-   set xcor 17
+   set xcor -19
    set ycor 3
    set heading 90
    set color one-of base-colors ; random colored
@@ -86,7 +84,7 @@ to setup-turtles
 ]
   
   create-turtles numberMetros [
-  set xcor 17
+  set xcor -19
   set ycor 3
   set heading 270
   set color one-of base-colors 
@@ -101,6 +99,8 @@ end
 ;;;;;;;;;;;;;;;;;;;;;;
 
 to go 
+  show max [count turtles in-radius 0] of patches with [pcolor = red]   ;counts turtles on red patches
+  
   ask turtles [
     jump-if-necessary
     turn-if-necessary
@@ -141,7 +141,6 @@ end
 to wait-if-necessary ;Attendre le nombre de ticks spécifiés
   if [pcolor] of patch-here = red [
     set waitingTime waitingTime + 1
-    show waitingTime
     if waitingTime > attendre [
       set waitingTimeOver true
     ]
@@ -152,25 +151,26 @@ end
 to move-if-you-can
   set goahead true
 
-  if [pcolor] of patch-here = red and not waitingTimeOver [ set goahead false ] ;; Je pourrais deja finir ici
+  if [pcolor] of patch-here = red and not waitingTimeOver [ set goahead false ]     ; Si j'ai pas fini mon waiting time -> wait
   
-  set canMove [not isBlocked] of patch-ahead 1  ;change status of the patch ahead to unblocked
-  if not canMove and not disregardBlock [ set goahead false ]
+  
+  set canMove [not isBlocked] of patch-ahead 1                                      ;is it blocked ahead??   
+  if not canMove and not disregardBlock [ set goahead false ]  ;if it is blocked and I cannot disregard the block -> wait.   ;;Injection frequency over??
   
   if goahead [
     block-section-if-necessary
     adjustmyspeed
-    forward myspeed
+    forward myspeed     ;avance de myspeed
     reset-variables
     adjustmyposition
     unblock-section-if-necessary
    ]
 end
 
-to block-section-if-necessary
+to block-section-if-necessary                                                      ;if I can move, block the rails I am on until the next station
   if [pcolor] of patch-here = red [
     set counter 1
-    while [ white = [pcolor] of patch-ahead counter ][      ;if patch ahead white,it is blocked
+    while [ white = [pcolor] of patch-ahead counter ][     
       ask patch-ahead counter [
         set isBlocked true
         set pcolor 88
@@ -181,7 +181,27 @@ to block-section-if-necessary
   ]
 end
 
-to unblock-section-if-necessary
+to adjustmyspeed                                                                  ;in order to not sto twice on a station (if speed <1) set the speed to 1 if I am on a station
+  ifelse [pcolor] of patch-here = red [                                           ;in the next step set it on speed again
+    set myspeed 1
+  ][
+    set myspeed speed / 30
+  ]
+end
+
+to reset-variables                                                               ;to be sure that he doesn't continue a started waiting time on a next stop
+    set turned false
+    set waitingTimeOver false
+    set waitingTime 0
+end
+
+to adjustmyposition
+  if [pcolor] of patch-here = red [
+    set xcor [pxcor] of patch-here
+  ]
+end
+
+to unblock-section-if-necessary                                                  ;unblock the section behind me so other metros can pass
   if [pcolor] of patch-here = red [                                      
       set counter 1
       
@@ -192,37 +212,23 @@ to unblock-section-if-necessary
         ]
         set counter counter + 1
       ]
-      set disregardBlock false                           ; if I just moved onto a station, unblock the stuff behind me
+      set disregardBlock false                           
       
 
     ]
 end
 
-to reset-variables
-    set turned false
-    set waitingTimeOver false
-    set waitingTime 0
-end
 
-to adjustmyspeed
-  ifelse [pcolor] of patch-here = red [
-    set myspeed 1
-  ][
-    set myspeed speed
-  ]
-end
 
-to adjustmyposition
-  if [pcolor] of patch-here = red [
-    set xcor [pxcor] of patch-here
-  ]
-end
+
+
+
 @#$#@#$#@
 GRAPHICS-WINDOW
-37
-98
-1230
-298
+35
+11
+1228
+211
 45
 6
 13.0
@@ -246,10 +252,10 @@ ticks
 30.0
 
 BUTTON
-43
-35
-106
-68
+39
+251
+102
+284
 NIL
 setup
 NIL
@@ -263,10 +269,10 @@ NIL
 1
 
 BUTTON
-118
-34
-181
-67
+114
+251
+177
+284
 NIL
 go
 NIL
@@ -281,9 +287,9 @@ NIL
 
 BUTTON
 188
-34
 251
-67
+251
+284
 NIL
 go
 T
@@ -305,7 +311,7 @@ NumberMetros
 NumberMetros
 1
 15
-6
+3
 1
 1
 NIL
@@ -313,20 +319,20 @@ HORIZONTAL
 
 TEXTBOX
 1185
-218
+131
 1214
-236
+149
 FLON
 11
 46.0
 1
 
 TEXTBOX
-754
+219
+337
 353
-1088
-483
-Echelle: 1 Station = 50m\n						x-coordonnée\nFlon-Vigie: 550m		11		flon 29\nVigie-Montelly: 850m		17		vigie 17\nMontelly-Provence: 450m		9		Montelly -1\nProvence-Malley: 400m		8		Provence -11\nMalley-Bourdonette: 1100m	22		Malley -20\n						Bourdonette 
+360
+Echelle: 1 Station = 50m 
 11
 0.0
 1
@@ -338,12 +344,12 @@ SLIDER
 386
 attendre
 attendre
-0
-10
-2
+30
+180
+60
+5
 1
-1
-NIL
+s
 HORIZONTAL
 
 TEXTBOX
@@ -358,9 +364,9 @@ Time Metro waits at Station
 
 TEXTBOX
 1140
-136
+47
 1215
-154
+65
 RENENS
 11
 45.0
@@ -377,18 +383,214 @@ Nombre de metros qui partent à droite et à gauche
 1
 
 SLIDER
-314
-427
-486
-460
+216
+354
+388
+387
 speed
 speed
 0
+30
+30
+2
 1
-0.3
-0.1
+m/s
+HORIZONTAL
+
+TEXTBOX
+1003
+48
+1153
+66
+EPENEX
+11
+45.0
 1
-NIL
+
+TEXTBOX
+833
+51
+983
+69
+CROCHY
+11
+45.0
+1
+
+TEXTBOX
+649
+52
+799
+70
+CERISAIE
+11
+45.0
+1
+
+TEXTBOX
+524
+51
+674
+69
+BASSENGES
+11
+45.0
+1
+
+TEXTBOX
+377
+44
+527
+72
+EPFL\nDEPOT
+11
+26.0
+1
+
+TEXTBOX
+1047
+130
+1197
+148
+VIGIE
+11
+45.0
+1
+
+TEXTBOX
+804
+132
+954
+150
+MONTELLY
+11
+45.0
+1
+
+TEXTBOX
+673
+132
+823
+150
+PROVENCE
+11
+45.0
+1
+
+TEXTBOX
+561
+132
+711
+150
+MALLEY
+11
+45.0
+1
+
+TEXTBOX
+247
+133
+397
+151
+BOURDONNETTE
+11
+45.0
+1
+
+TEXTBOX
+143
+132
+293
+150
+UNIL DORIGNY
+11
+45.0
+1
+
+TEXTBOX
+45
+132
+195
+150
+UNIL MOULINE
+11
+45.0
+1
+
+TEXTBOX
+44
+55
+194
+73
+UNIL MOULINE
+11
+45.0
+1
+
+TEXTBOX
+180
+55
+330
+73
+UNIL SORGE
+11
+45.0
+1
+
+PLOT
+478
+254
+1204
+492
+Max Metros at each station
+Time (s)
+# Metros
+0.0
+1000.0
+0.0
+15.0
+true
+true
+"" ""
+PENS
+"default" 1.0 0 -16777216 true "" "plot max [count turtles in-radius 0] of patches with [pcolor = red]"
+"2 Metros" 1.0 0 -10899396 true "" "plot 2"
+"4 Metros" 1.0 0 -2674135 true "" "plot 4"
+"6 Metros" 1.0 0 -5825686 true "" "plot 6"
+
+TEXTBOX
+221
+392
+371
+420
+Vitesse Max. M1 = 17m/s voire 60km/h
+11
+0.0
+1
+
+TEXTBOX
+216
+320
+366
+338
+1Tick = 1s
+11
+0.0
+1
+
+SLIDER
+24
+464
+198
+497
+InjectionFrequency
+InjectionFrequency
+0
+15
+3
+1
+1
+min
 HORIZONTAL
 
 @#$#@#$#@
