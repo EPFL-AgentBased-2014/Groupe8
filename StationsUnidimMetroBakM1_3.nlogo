@@ -352,7 +352,7 @@ NumberMetros
 NumberMetros
 2
 16
-2
+8
 2
 1
 NIL
@@ -387,7 +387,7 @@ waitingTimeAtStation
 waitingTimeAtStation
 30
 180
-35
+55
 5
 1
 s
@@ -422,7 +422,7 @@ speed
 speed
 0
 50
-2
+50
 2
 1
 m/s
@@ -1031,7 +1031,8 @@ NetLogo 5.0.5
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="8000"/>
-    <metric>count turtles</metric>
+    <metric>retardTotal</metric>
+    <metric>conflicts</metric>
     <enumeratedValueSet variable="speed">
       <value value="17"/>
     </enumeratedValueSet>
