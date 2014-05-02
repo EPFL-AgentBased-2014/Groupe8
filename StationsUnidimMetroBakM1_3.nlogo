@@ -212,7 +212,7 @@ to block-section-if-necessary                                                   
 end
 
 to adjustmyspeed                                                                  ;in order to not sto twice on a station (if speed <1) set the speed to 1 if I am on a station
-  ifelse [pcolor] of patch-here = red [                                           ;in the next step set it on speed again
+  ifelse [pcolor] of patch-here = red or patch-here = patch 5 -3 or patch-here = patch -6 3 or patch-here = patch -33 3[                                           ;in the next step set it on speed again
     set myspeed 1
   ][
     set myspeed speed / 30
@@ -352,7 +352,11 @@ NumberMetros
 NumberMetros
 2
 16
+<<<<<<< HEAD
 16
+=======
+8
+>>>>>>> 1b570d94af3631b379200de98eb946b84562551c
 2
 1
 NIL
@@ -387,7 +391,11 @@ waitingTimeAtStation
 waitingTimeAtStation
 30
 180
+<<<<<<< HEAD
 30
+=======
+55
+>>>>>>> 1b570d94af3631b379200de98eb946b84562551c
 5
 1
 s
@@ -618,7 +626,11 @@ InjectionFrequency
 InjectionFrequency
 0
 900
+<<<<<<< HEAD
 180
+=======
+60
+>>>>>>> 1b570d94af3631b379200de98eb946b84562551c
 60
 1
 s
@@ -1016,10 +1028,11 @@ NetLogo 5.0.5
 @#$#@#$#@
 @#$#@#$#@
 <experiments>
-  <experiment name="experiment" repetitions="1" runMetricsEveryStep="false">
+  <experiment name="experiment complet" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="8000"/>
+<<<<<<< HEAD
     <metric>retardTotal</metric>
     <metric>conflicts</metric>
     <enumeratedValueSet variable="waitingTimeAtStation">
@@ -1029,6 +1042,28 @@ NetLogo 5.0.5
     <enumeratedValueSet variable="speed">
       <value value="17"/>
     </enumeratedValueSet>
+=======
+    <metric>retardTotal</metric>
+    <metric>conflicts</metric>
+    <steppedValueSet variable="speed" first="5" step="1" last="50"/>
+    <steppedValueSet variable="waitingTimeAtStation" first="30" step="5" last="180"/>
+    <steppedValueSet variable="NumberMetros" first="2" step="2" last="16"/>
+    <steppedValueSet variable="InjectionFrequency" first="60" step="60" last="180"/>
+  </experiment>
+  <experiment name="experiment limité" repetitions="1" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="8000"/>
+    <metric>retardTotal</metric>
+    <metric>conflicts</metric>
+    <enumeratedValueSet variable="speed">
+      <value value="17"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="waitingTimeAtStation">
+      <value value="45"/>
+    </enumeratedValueSet>
+    <steppedValueSet variable="NumberMetros" first="2" step="2" last="16"/>
+>>>>>>> 1b570d94af3631b379200de98eb946b84562551c
     <steppedValueSet variable="InjectionFrequency" first="60" step="60" last="180"/>
   </experiment>
 </experiments>
