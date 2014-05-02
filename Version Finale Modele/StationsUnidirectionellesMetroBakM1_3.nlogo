@@ -391,7 +391,7 @@ waitingTimeAtStation
 waitingTimeAtStation
 30
 180
-95
+45
 5
 1
 s
@@ -426,7 +426,7 @@ speed
 speed
 0
 50
-50
+17
 2
 1
 m/s
