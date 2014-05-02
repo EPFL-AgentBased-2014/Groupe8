@@ -101,9 +101,23 @@ Les variables pour tester conflits et retard sont alors la fréquence d'injectio
 <p>Bien que les deux modèles testés diffèrent (l'un ne possède que des stations ou les métros peuvent se croiser, l'autre possède 3 stations où le croisement est impossible),les graphes produits présent des allures similaires :</p>
 
 <ul>
-<li>En faisant varier le paramètre de fréquence d'injection des métros, on remarque que <strong>dans les deux cas plus la fréquence est élevée, moins les retards et conflits en stations sont nombreux.</strong> 
-Néanmoins, lorsque le <strong>croisement est possible à toutes les stations, les performances sont meilleures</strong>.</li>
-<li>Lorsque c'est le nombre de métros qui varie, on remarque sans surprise que <strong>moins il y a de métros, moins il y a de retards ou conflits</strong>. Cependant : 
+<li>
+<p>En faisant varier le paramètre de fréquence d'injection des métros, on remarque que </p>
+
+<ul>
+<li>Pour la ligne où le croisement est possible à toutes les stations, le retard max avoisine 45 minutes.</li>
+<li>Pour la ligne où le croisement est impossible à 3 des stations, le retard max avoisine 120 minutes.
+
+<ul>
+<li>-&gt; La ligne avec des stations unidirectionnelles semble donc être moins performante au niveau des retards.</li>
+</ul>
+</li>
+<li>Cependant, la variation des conflits reste sensiblement similaire dans les deux cas. </li>
+<li>Les deux graphes présentent un aspect en dents de scie. </li>
+</ul>
+</li>
+<li>
+<p>Lorsque c'est le nombre de métros qui varie, on remarque sans surprise que <strong>moins il y a de métros, moins il y a de retards ou conflits</strong>. Cependant : </p>
 
 <ul>
 <li>Pour le modèle où le croisement est impossible à 3 stations, l'augmentation du nombre de métros semble faire croître indéfiniment le nombre de conflits et de retards, malgré une première phase plutôt satisfaisante.</li>
