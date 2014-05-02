@@ -215,7 +215,7 @@ to adjustmyspeed                                                                
   ifelse [pcolor] of patch-here = red [                                           ;in the next step set it on speed again
     set myspeed 1
   ][
-    set myspeed speed / 50
+    set myspeed speed / 30
   ]
 end
 
@@ -352,7 +352,7 @@ NumberMetros
 NumberMetros
 2
 16
-1
+16
 2
 1
 NIL
@@ -387,7 +387,7 @@ waitingTimeAtStation
 waitingTimeAtStation
 30
 180
-65
+30
 5
 1
 s
@@ -422,7 +422,7 @@ speed
 speed
 0
 50
-50
+18
 2
 1
 m/s
@@ -618,7 +618,7 @@ InjectionFrequency
 InjectionFrequency
 0
 900
-120
+180
 60
 1
 s
@@ -1019,28 +1019,17 @@ NetLogo 5.0.5
   <experiment name="experiment" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
+    <timeLimit steps="8000"/>
     <metric>retardTotal</metric>
     <metric>conflicts</metric>
-    <enumeratedValueSet variable="speed">
-      <value value="5"/>
-      <value value="1"/>
-      <value value="50"/>
-    </enumeratedValueSet>
     <enumeratedValueSet variable="waitingTimeAtStation">
-      <value value="30"/>
-      <value value="5"/>
-      <value value="180"/>
+      <value value="45"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="NumberMetros">
-      <value value="2"/>
-      <value value="2"/>
-      <value value="16"/>
+    <steppedValueSet variable="NumberMetros" first="2" step="2" last="16"/>
+    <enumeratedValueSet variable="speed">
+      <value value="17"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="InjectionFrequency">
-      <value value="60"/>
-      <value value="60"/>
-      <value value="180"/>
-    </enumeratedValueSet>
+    <steppedValueSet variable="InjectionFrequency" first="60" step="60" last="180"/>
   </experiment>
 </experiments>
 @#$#@#$#@

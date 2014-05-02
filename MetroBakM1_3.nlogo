@@ -168,7 +168,7 @@ to turn-if-necessary
 end
 
 
-to wait-if-necessary                               ;;Attendre le nombre de ticks spécifiés
+to wait-if-necessary ;Attendre le nombre de ticks spécifiés
   if [pcolor] of patch-here = red [
     set waitingTime waitingTime + 1
     if waitingTime > waitingTimeAtStation [
@@ -353,7 +353,7 @@ NumberMetros
 NumberMetros
 2
 16
-16
+2
 2
 1
 NIL
@@ -388,7 +388,7 @@ waitingTimeAtStation
 waitingTimeAtStation
 30
 180
-30
+45
 5
 1
 s
@@ -423,7 +423,7 @@ speed
 speed
 0
 50
-50
+17
 2
 1
 m/s
@@ -637,10 +637,10 @@ retardTotal
 11
 
 MONITOR
-384
-281
-442
-326
+414
+309
+472
+354
 NIL
 conflicts
 17
@@ -1023,16 +1023,14 @@ NetLogo 5.0.5
     <timeLimit steps="8000"/>
     <metric>retardTotal</metric>
     <metric>conflicts</metric>
-    <enumeratedValueSet variable="InjectionFrequency">
-      <value value="180"/>
+    <steppedValueSet variable="InjectionFrequency" first="60" step="60" last="180"/>
+    <enumeratedValueSet variable="waitingTimeAtStation">
+      <value value="45"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="attendre">
-      <value value="40"/>
+    <enumeratedValueSet variable="speed">
+      <value value="17"/>
     </enumeratedValueSet>
-    <steppedValueSet variable="speed" first="20" step="5" last="60"/>
-    <enumeratedValueSet variable="NumberMetros">
-      <value value="10"/>
-    </enumeratedValueSet>
+    <steppedValueSet variable="NumberMetros" first="2" step="2" last="16"/>
   </experiment>
 </experiments>
 @#$#@#$#@
