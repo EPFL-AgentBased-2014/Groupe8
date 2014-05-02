@@ -102,14 +102,14 @@ Les variables pour tester conflits et retard sont alors la fréquence d'injectio
 
 <ul>
 <li>En faisant varier le paramètre de fréquence d'injection des métros, on remarque que <strong>dans les deux cas plus la fréquence est élevée, moins les retards et conflits en stations sont nombreux.</strong> 
-Néanmoins, lorsque le <code>croisement est possible à toutes les stations, les performances sont meilleures</code>.</li>
-<li>Lorsque c'est le nombre de métros qui varie, on remarque sans surprise que <code>moins il y a de métros, moins il y a de retards ou conflits</code>. Cependant : 
+Néanmoins, lorsque le <strong>croisement est possible à toutes les stations, les performances sont meilleures</strong>.</li>
+<li>Lorsque c'est le nombre de métros qui varie, on remarque sans surprise que <strong>moins il y a de métros, moins il y a de retards ou conflits</strong>. Cependant : 
 
 <ul>
 <li>Pour le modèle où le croisement est impossible à 3 stations, l'augmentation du nombre de métros semble faire croître indéfiniment le nombre de conflits et de retards, malgré une première phase plutôt satisfaisante.</li>
 <li>Pour l'autre modèle, un pic des conflits a lieu lorsque 14 métros circulent, mais au-delà les conflits diminuent -&gt; Le modèle semble tendre vers une régularisation, ou un cycle. 
 Là aussi, les retard augmentent avec le nombre de métros.
-Une fois de plus, la ligne permettant le <code>croisement à toutes les stations présente de meilleures performances.</code>
+Une fois de plus, la ligne permettant <strong>le croisement à toutes les stations présente de meilleures performances.</strong>
 </li>
 </ul>
 </li>
@@ -117,22 +117,19 @@ Une fois de plus, la ligne permettant le <code>croisement à toutes les stations
 <a name="discussion-et-conclusion" class="anchor" href="#discussion-et-conclusion"><span class="octicon octicon-link"></span></a>Discussion et conclusion</h1>
 
 <ul>
-<li>
-<p>Conclusion</p>
+<li>Conclusion
 
 <ul>
 <li>Ce modèle nous a permis de modéliser un trafic ferroviaire de façon bottom-up, pour que les agents règlent eux-même leur circulation en transmettant des informations aux patchs sur lesquels ils circulent. </li>
 </ul>
 </li>
-<li>
-<p>Application</p>
+<li>Application
 
 <ul>
 <li>Ce modèle pourrait être utilisé pour des rames "intelligentes" qui n'interagiraient qu'entre elles et dont la coordination ne dépendrait pas d'un contrôle supervisé.</li>
 </ul>
 </li>
-<li>
-<p>Pour poursuivre</p>
+<li>Pour poursuivre
 
 <ul>
 <li>En ajoutant les passages à niveaux (croisement des rails avec le trafic routier), le modèle serait encore plus complet, introduisant de nouveaux temps d'attente en station.</li>
