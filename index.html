@@ -95,10 +95,52 @@
 
 <p><img src="https://raw.githubusercontent.com/EPFL-AgentBased-2014/Groupe8/master/images/graphe_unidim_nombre.jpg" alt="Un exemple d'image"></p>
 
-<h1>
+<p>Pour obtenir ces résultats, nous avons fixé deux paramètres : la vitesse des rames est de 17m/s, le temps d'attente en station est de 45s. (On considère que les rames vont au maximum de leur vitesse et que le temps d'attente est minimal). 
+Les variables pour tester conflits et retard sont alors la fréquence d'injection des métros et le nombre de métros en circulation. </p>
+
+<p>Bien que les deux modèles testés diffèrent (l'un ne possède que des stations ou les métros peuvent se croiser, l'autre possède 3 stations où le croisement est impossible),les graphes produits présent des allures similaires :</p>
+
+<ul>
+<li>En faisant varier le paramètre de fréquence d'injection des métros, on remarque que <strong>dans les deux cas plus la fréquence est élevée, moins les retards et conflits en stations sont nombreux.</strong> 
+Néanmoins, lorsque le <code>croisement est possible à toutes les stations, les performances sont meilleures</code>.</li>
+<li>Lorsque c'est le nombre de métros qui varie, on remarque sans surprise que <code>moins il y a de métros, moins il y a de retards ou conflits</code>. Cependant : 
+
+<ul>
+<li>Pour le modèle où le croisement est impossible à 3 stations, l'augmentation du nombre de métros semble faire croître indéfiniment le nombre de conflits et de retards, malgré une première phase plutôt satisfaisante.</li>
+<li>Pour l'autre modèle, un pic des conflits a lieu lorsque 14 métros circulent, mais au-delà les conflits diminuent -&gt; Le modèle semble tendre vers une régularisation, ou un cycle. 
+Là aussi, les retard augmentent avec le nombre de métros.
+Une fois de plus, la ligne permettant le <code>croisement à toutes les stations présente de meilleures performances.</code>
+</li>
+</ul>
+</li>
+</ul><h1>
 <a name="discussion-et-conclusion" class="anchor" href="#discussion-et-conclusion"><span class="octicon octicon-link"></span></a>Discussion et conclusion</h1>
 
-<p>Donec vel fermentum nisl, et laoreet metus. Donec scelerisque sollicitudin urna, in viverra est fermentum tincidunt. Maecenas mi arcu, eleifend vitae augue eget, feugiat imperdiet purus. Curabitur blandit lorem ut laoreet rutrum. Morbi consectetur, sem vel porta sodales, ante tortor bibendum risus, id pharetra arcu urna a enim. Nunc a pulvinar enim, eu condimentum magna. Donec vitae eros auctor, ultricies risus quis, pulvinar sapien. Duis feugiat vitae eros vitae mattis. In hac habitasse platea dictumst. Praesent auctor nec tortor in varius. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Maecenas ac accumsan erat, quis eleifend lectus. Sed vulputate suscipit justo vel blandit. Nam quis diam volutpat, blandit tortor at, rhoncus arcu. In hac habitasse platea dictumst.</p>
+<ul>
+<li>
+<p>Conclusion</p>
+
+<ul>
+<li>Ce modèle nous a permis de modéliser un trafic ferroviaire de façon bottom-up, pour que les agents règlent eux-même leur circulation en transmettant des informations aux patchs sur lesquels ils circulent. </li>
+</ul>
+</li>
+<li>
+<p>Application</p>
+
+<ul>
+<li>Ce modèle pourrait être utilisé pour des rames "intelligentes" qui n'interagiraient qu'entre elles et dont la coordination ne dépendrait pas d'un contrôle supervisé.</li>
+</ul>
+</li>
+<li>
+<p>Pour poursuivre</p>
+
+<ul>
+<li>En ajoutant les passages à niveaux (croisement des rails avec le trafic routier), le modèle serait encore plus complet, introduisant de nouveaux temps d'attente en station.</li>
+<li>Il serait intéressant de programmer des tronçons à deux rails, pour les que les rames puissent se croiser en circulation, puis d'étendre ce concept à toute la ligne : ainsi, on réduirait les conflits puisque le croisement serait aussi possible hors des stations.</li>
+<li>Pour aller encore plus loin, modéliser de nouveaux agents qui seraient les passagers afin d'observer le flux de voyageurs, et ainsi introduire une variable stochastique. </li>
+</ul>
+</li>
+</ul>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/EPFL-AgentBased-2014">EPFL-AgentBased-2014</a></p>
