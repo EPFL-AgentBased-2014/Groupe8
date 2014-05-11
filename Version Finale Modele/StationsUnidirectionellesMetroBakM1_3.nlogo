@@ -84,13 +84,14 @@ end
 
 ;;TURTLES
 to setup-turtles
-  set-default-shape turtles "train passenger car"
+  
    create-turtles 1 [                   ;set x-coordinates of right heading metros in list
+   set shape "busR"
    set xcor -19
    set ycor 3
    set heading 90
    set color one-of base-colors ; random colored
-   set size 2
+   set size 2.5
    set disregardBlock false
    set turned false
    set WaitingTimeOver true
@@ -98,11 +99,12 @@ to setup-turtles
 ]
   
   create-turtles 1 [
+  set shape "busL"
   set xcor -19
   set ycor 3
   set heading 270
   set color one-of base-colors 
-  set size 2
+  set size 2.5
   set disregardBlock false
   set turned false
   set WaitingTimeOver true
@@ -150,12 +152,14 @@ to jump-south
     set xcor -45
     set ycor -3
     set heading heading - 180
+    set shape "busR"
 end
 
 to jump-north
    set xcor -45
    set ycor 3
    set heading heading + 180
+   set shape "busR"
 end
 
 
@@ -163,6 +167,7 @@ to turn-if-necessary
   if [terminus] of patch-here and not turned
    [
     set heading heading - 180                     ;;Terminal Station- turn around
+    set shape "busL"
     set turned true
   ]
 end
@@ -348,9 +353,9 @@ NIL
 0
 
 SLIDER
-25
+11
 394
-197
+183
 427
 NumberMetros
 NumberMetros
@@ -373,25 +378,25 @@ FLON
 1
 
 TEXTBOX
-219
-337
-353
-360
+194
+335
+328
+358
 Scale: 1 Station = 50m 
 11
 0.0
 1
 
 SLIDER
-28
+12
 353
-203
+186
 386
 waitingTimeAtStation
 waitingTimeAtStation
 30
 180
-45
+70
 5
 1
 s
@@ -418,10 +423,10 @@ RENENS
 1
 
 SLIDER
-216
-354
-388
-387
+192
+353
+364
+386
 speed
 speed
 0
@@ -573,10 +578,10 @@ UNIL SORGE
 1
 
 PLOT
-619
-254
-1204
-492
+449
+283
+866
+480
 Max Metros at each station
 Time (s)
 # Metros
@@ -594,9 +599,9 @@ PENS
 "6 Metros" 1.0 0 -5825686 true "" "plot 6"
 
 TEXTBOX
-221
+195
 392
-371
+345
 420
 Velocity Max. M1 = 17m/s ->  60km/h
 11
@@ -604,35 +609,35 @@ Velocity Max. M1 = 17m/s ->  60km/h
 1
 
 TEXTBOX
-216
-320
-366
-338
+194
+318
+344
+336
 1Tick = 1s
 11
 0.0
 1
 
 SLIDER
-27
+10
 434
-199
+182
 467
 InjectionFrequency
 InjectionFrequency
 0
 900
-50
-60
+210
+10
 1
 s
 HORIZONTAL
 
 MONITOR
-385
-228
-608
-273
+380
+230
+603
+275
 Total delay of all Metros together (s)
 retardTotal
 17
@@ -640,10 +645,10 @@ retardTotal
 11
 
 MONITOR
-414
-309
-472
-354
+381
+291
+439
+336
 NIL
 conflicts
 17
@@ -720,6 +725,50 @@ Circle -7500403 true true 110 127 80
 Circle -7500403 true true 110 75 80
 Line -7500403 true 150 100 80 30
 Line -7500403 true 150 100 220 30
+
+busl
+false
+0
+Polygon -7500403 true true 285 206 285 150 285 120 270 105 30 105 15 120 15 135 15 206 30 210 270 210
+Rectangle -16777216 true false 69 126 264 159
+Line -7500403 true 240 135 240 165
+Line -7500403 true 240 120 240 165
+Line -7500403 true 210 120 210 165
+Line -7500403 true 180 120 180 165
+Line -7500403 true 150 120 150 165
+Line -7500403 true 120 120 120 165
+Line -7500403 true 90 120 90 165
+Line -7500403 true 60 135 60 165
+Rectangle -16777216 true false 15 174 285 182
+Circle -16777216 true false 210 187 42
+Rectangle -16777216 true false 24 127 60 205
+Circle -16777216 true false 63 187 42
+Line -7500403 true 43 120 43 207
+Line -1184463 false 60 165 30 165
+Polygon -1184463 true false 45 135 15 165 45 195 45 135
+Polygon -1184463 true false 45 135 15 165 45 195 45 135
+
+busr
+false
+0
+Polygon -7500403 true true 15 206 15 150 15 120 30 105 270 105 285 120 285 135 285 206 270 210 30 210
+Rectangle -16777216 true false 36 126 231 159
+Line -7500403 true 60 135 60 165
+Line -7500403 true 60 120 60 165
+Line -7500403 true 90 120 90 165
+Line -7500403 true 120 120 120 165
+Line -7500403 true 150 120 150 165
+Line -7500403 true 180 120 180 165
+Line -7500403 true 210 120 210 165
+Line -7500403 true 240 135 240 165
+Rectangle -16777216 true false 15 174 285 182
+Circle -16777216 true false 48 187 42
+Rectangle -16777216 true false 240 127 276 205
+Circle -16777216 true false 195 187 42
+Line -7500403 true 257 120 257 207
+Line -1184463 false 240 165 270 165
+Polygon -1184463 true false 255 135 285 165 255 195 255 135
+Polygon -1184463 true false 255 135 285 165 255 195 255 135
 
 butterfly
 true

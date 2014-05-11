@@ -388,7 +388,7 @@ waitingTimeAtStation
 waitingTimeAtStation
 30
 180
-45
+70
 5
 1
 s
@@ -619,8 +619,8 @@ InjectionFrequency
 InjectionFrequency
 0
 900
-50
-60
+210
+10
 1
 s
 HORIZONTAL
