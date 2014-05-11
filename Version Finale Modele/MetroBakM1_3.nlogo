@@ -84,13 +84,14 @@ end
 
 ;;TURTLES
 to setup-turtles
-  set-default-shape turtles "train passenger car"
-   create-turtles 1 [                   ;set x-coordinates of right heading metros in list
+  
+   create-turtles 1 [ 
+   set shape "busR"                  ;set x-coordinates of right heading metros in list
    set xcor -19
    set ycor 3
    set heading 90
    set color one-of base-colors ; random colored
-   set size 2
+   set size 2.5
    set disregardBlock false
    set turned false
    set WaitingTimeOver true
@@ -98,11 +99,12 @@ to setup-turtles
 ]
   
   create-turtles 1 [
+  set shape "busL"
   set xcor -19
   set ycor 3
   set heading 270
   set color one-of base-colors 
-  set size 2
+  set size 2.5
   set disregardBlock false
   set turned false
   set WaitingTimeOver true
@@ -144,18 +146,21 @@ to jump-if-necessary
     ;; if you are on the extremities of the line
     if patch-here = patch -45 3 and heading = 270 [ jump-south ]
     if patch-here = patch -45 -3 and heading = 270 [ jump-north ]
+    
 end
 
 to jump-south
     set xcor -45
     set ycor -3
     set heading heading - 180
+    set shape "busR"
 end
 
 to jump-north
    set xcor -45
    set ycor 3
    set heading heading + 180
+   set shape "busR"
 end
 
 
@@ -164,6 +169,7 @@ to turn-if-necessary
    [
     set heading heading - 180                     ;;Terminal Station- turn around
     set turned true
+    set shape "busL"
   ]
 end
 
@@ -388,7 +394,7 @@ waitingTimeAtStation
 waitingTimeAtStation
 30
 180
-70
+65
 5
 1
 s
@@ -718,6 +724,50 @@ Circle -7500403 true true 110 75 80
 Line -7500403 true 150 100 80 30
 Line -7500403 true 150 100 220 30
 
+busl
+false
+0
+Polygon -7500403 true true 285 206 285 150 285 120 270 105 30 105 15 120 15 135 15 206 30 210 270 210
+Rectangle -16777216 true false 69 126 264 159
+Line -7500403 true 240 135 240 165
+Line -7500403 true 240 120 240 165
+Line -7500403 true 210 120 210 165
+Line -7500403 true 180 120 180 165
+Line -7500403 true 150 120 150 165
+Line -7500403 true 120 120 120 165
+Line -7500403 true 90 120 90 165
+Line -7500403 true 60 135 60 165
+Rectangle -16777216 true false 15 174 285 182
+Circle -16777216 true false 210 187 42
+Rectangle -16777216 true false 24 127 60 205
+Circle -16777216 true false 63 187 42
+Line -7500403 true 43 120 43 207
+Line -1184463 false 30 165 60 165
+Line -1184463 false 30 165 45 150
+Line -1184463 false 30 165 45 180
+Polygon -1184463 true false 45 150 45 195 15 165 45 135
+
+busr
+false
+0
+Polygon -7500403 true true 15 206 15 150 15 120 30 105 270 105 285 120 285 135 285 206 270 210 30 210
+Rectangle -16777216 true false 36 126 231 159
+Line -7500403 true 60 135 60 165
+Line -7500403 true 60 120 60 165
+Line -7500403 true 90 120 90 165
+Line -7500403 true 120 120 120 165
+Line -7500403 true 150 120 150 165
+Line -7500403 true 180 120 180 165
+Line -7500403 true 210 120 210 165
+Line -7500403 true 240 135 240 165
+Rectangle -16777216 true false 15 174 285 182
+Circle -16777216 true false 48 187 42
+Rectangle -16777216 true false 240 127 276 205
+Circle -16777216 true false 195 187 42
+Line -1184463 false 240 165 270 165
+Line -7500403 true 255 120 255 210
+Polygon -1184463 true false 255 135 285 165 255 195 255 135
+
 butterfly
 true
 0
@@ -917,6 +967,23 @@ Circle -7500403 true true 60 60 180
 Circle -16777216 true false 90 90 120
 Circle -7500403 true true 120 120 60
 
+train
+false
+0
+Rectangle -7500403 true true 30 105 240 150
+Polygon -7500403 true true 240 105 270 30 180 30 210 105
+Polygon -7500403 true true 195 180 270 180 300 210 195 210
+Circle -7500403 true true 0 165 90
+Circle -7500403 true true 240 225 30
+Circle -7500403 true true 90 165 90
+Circle -7500403 true true 195 225 30
+Rectangle -7500403 true true 0 30 105 150
+Rectangle -16777216 true false 30 60 75 105
+Polygon -7500403 true true 195 180 165 150 240 150 240 180
+Rectangle -7500403 true true 135 75 165 105
+Rectangle -7500403 true true 225 120 255 150
+Rectangle -16777216 true false 30 203 150 218
+
 train passenger car
 false
 0
@@ -938,6 +1005,29 @@ Rectangle -16777216 true false 5 195 19 207
 Rectangle -16777216 true false 281 195 295 207
 Rectangle -13345367 true false 15 165 285 173
 Rectangle -2674135 true false 15 180 285 188
+
+train passenger engine
+false
+0
+Rectangle -7500403 true true 0 180 300 195
+Polygon -7500403 true true 283 161 274 128 255 114 231 105 165 105 15 105 15 150 15 195 15 210 285 210
+Circle -16777216 true false 17 195 30
+Circle -16777216 true false 50 195 30
+Circle -16777216 true false 220 195 30
+Circle -16777216 true false 253 195 30
+Rectangle -16777216 false false 0 195 300 180
+Rectangle -1 true false 11 111 18 118
+Rectangle -1 true false 270 129 277 136
+Rectangle -16777216 true false 91 195 210 210
+Rectangle -16777216 true false 1 180 10 195
+Line -16777216 false 290 150 291 182
+Rectangle -16777216 true false 165 90 195 90
+Rectangle -16777216 true false 290 180 299 195
+Polygon -13345367 true false 285 180 267 158 239 135 180 120 15 120 16 113 180 113 240 120 270 135 282 154
+Polygon -2674135 true false 284 179 267 160 239 139 180 127 15 127 16 120 180 120 240 127 270 142 282 161
+Rectangle -16777216 true false 210 115 254 135
+Line -7500403 true 225 105 225 150
+Line -7500403 true 240 105 240 150
 
 tree
 false
