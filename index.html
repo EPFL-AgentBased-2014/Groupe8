@@ -1,36 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="&quot;Sur les rails&quot; : " />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>&quot;Sur les rails&quot; by EPFL-AgentBased-2014</title>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>&quot;Sur les rails&quot;</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
-
   <body>
+    <div class="wrapper">
+      <header>
+        <h1>&quot;Sur les rails&quot;</h1>
+        <p></p>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/EPFL-AgentBased-2014/Groupe8">View on GitHub</a>
+        <p class="view"><a href="https://github.com/EPFL-AgentBased-2014/Groupe8">View the Project on GitHub <small>EPFL-AgentBased-2014/Groupe8</small></a></p>
 
-          <h1 id="project_title">&quot;Sur les rails&quot;</h1>
-          <h2 id="project_tagline"></h2>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/EPFL-AgentBased-2014/Groupe8/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/EPFL-AgentBased-2014/Groupe8/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
+        <ul>
+          <li><a href="https://github.com/EPFL-AgentBased-2014/Groupe8/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/EPFL-AgentBased-2014/Groupe8/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/EPFL-AgentBased-2014/Groupe8">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
         <p><a href="http://epfl-agentbased-2014.github.io/">&lt;&lt;&lt; EPFL Semaine ENAC - Modèles Basés-Agents</a></p>
 
 <p><strong>Résumé</strong></p>
@@ -140,6 +137,8 @@ Une fois de plus, la ligne permettant <strong>le croisement à toutes les statio
 
 <ul>
 <li>Ce modèle nous a permis de modéliser un trafic ferroviaire de façon bottom-up, pour que les agents règlent eux-même leur circulation en transmettant des informations aux patchs sur lesquels ils circulent. </li>
+<li>Avec les paramètres choisis - 17m/s et 45s de waiting time. Le parcours d'un métro sans retard est de 19min (1140ticks). Sur la durée des 8000 ticks que tourne le modèle, un metro peut faire en principe 7 tours du système. </li>
+<li>On remarque que le modèle le plus efficace, avec lequel on parvient à n'avoir aucun conflit ni retard, est celui où le croisement est possible à toutes les stations. Dès que l'on insère les stations unidirectionnelles (telles que dans la réalité...) le modèle est nettement moins performant !</li>
 </ul>
 </li>
 <li>Application
@@ -153,23 +152,19 @@ Une fois de plus, la ligne permettant <strong>le croisement à toutes les statio
 <ul>
 <li>En ajoutant les passages à niveaux (croisement des rails avec le trafic routier), le modèle serait encore plus complet, introduisant de nouveaux temps d'attente en station.</li>
 <li>Il serait intéressant de programmer des tronçons à deux rails, pour les que les rames puissent se croiser en circulation, puis d'étendre ce concept à toute la ligne : ainsi, on réduirait les conflits puisque le croisement serait aussi possible hors des stations.</li>
-<li>Un waiting time stochastique pourrait modéliser d'éventuels problèmes retardant le départ de la station (accident, porte coincée...) </li>
+<li>Un "waiting-time" stochastique pourrait modéliser d'éventuels problèmes retardant le départ de la station (accident, porte coincée...) </li>
+<li>Réussir à programmer la sortie de certains métros afin de modéliser des fréquences différentes tout au long de la journée (plus de métro à midi qu'à 15h00 par exemple) pourrait nous permettre de tester si le retard est rattrapable. </li>
 <li>Pour aller encore plus loin, modéliser de nouveaux agents qui seraient les passagers afin d'observer le flux de voyageurs, et ainsi introduire une variable stochastique. </li>
 </ul>
 </li>
 </ul>
       </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">&quot;Sur les rails&quot; maintained by <a href="https://github.com/EPFL-AgentBased-2014">EPFL-AgentBased-2014</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/EPFL-AgentBased-2014">EPFL-AgentBased-2014</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
     </div>
-
+    <script src="javascripts/scale.fix.js"></script>
     
-
   </body>
 </html>
